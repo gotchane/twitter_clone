@@ -1,0 +1,12 @@
+<p><%=notice%></p>
+
+<aside class="col-md-4">
+<% provide(:title, @user.name) %>
+<%= gravatar_for @user %>
+  <section class="user_info">
+    <h1>
+      <%= @user.name %>
+      <%= @user.email %>
+    </h1>
+  </section>
+</aside>
