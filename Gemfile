@@ -50,6 +50,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 3.0'
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
+  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
 end
 
 group :development do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170903064816) do
+ActiveRecord::Schema.define(version: 20170913002509) do
 
   create_table "tweets", force: :cascade do |t|
     t.string "tweet_text", limit: 140
@@ -25,6 +25,8 @@ ActiveRecord::Schema.define(version: 20170903064816) do
     t.string "email", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest"
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
 end
