@@ -4,9 +4,19 @@
 <% provide(:title, @user.name) %>
 <%= gravatar_for @user %>
   <section class="user_info">
-    <h1>
-      <%= @user.name %>
-      <%= @user.email %>
-    </h1>
+    <h1><%= @user.name %></h1>
+    <h1><%= @user.email %></h1>
+  </section>
+  <section class="tweet_form">
+    <%= render "tweets/form_new", {user: @user, tweet: @tweet_post} %>
   </section>
 </aside>
+<div class="col-md-8">
+  <% if @user.tweets.any? %>
+        <h3>Tweets (<%= @user.tweets.count %>)</h3>
+    <ol class="tweets">
+      <%= render @tweets %>
+    </ol>
+    <%= will_paginate @tweets %>
+  <% end %>
+</div>

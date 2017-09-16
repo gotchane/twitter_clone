@@ -15,6 +15,8 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @tweets = @user.tweets.paginate(page: params[:page])
+    @tweet_post = @user.tweets.new
   end
 
   def update
