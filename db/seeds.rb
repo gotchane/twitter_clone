@@ -9,13 +9,13 @@
 #
 # ユーザー 
 User.create!(name:  "Example User",
-             email: "example@railstutorial.org",
+             email: "example@example.org",
              password:              "foobar",
              password_confirmation: "foobar")
 
 99.times do |n|
   name  = "TestUser" + n.to_s
-  email = "example-#{n+1}@railstutorial.org"
+  email = "example-#{n+1}@example.org"
   password = "password"
   User.create!(name:  name,
                email: email,

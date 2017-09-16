@@ -7,6 +7,9 @@
     <h1><%= @user.name %></h1>
     <h1><%= @user.email %></h1>
   </section>
+  <section class="stats">
+    <%= render 'partials/stats' %>
+  </section>
   <section class="tweet_form">
     <%= render "tweets/form_new", {user: @user, tweet: @tweet_post} %>
   </section>
