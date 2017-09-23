@@ -11,7 +11,8 @@ class TweetsController < ApplicationController
       flash[:success] = "Tweet succeeded!"
       redirect_to @user
     else
-      render @user
+      flash[:danger] = "Tweet failed! please tweet under 140 letters."
+      redirect_to @user
     end
   end
 
