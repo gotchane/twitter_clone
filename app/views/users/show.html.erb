@@ -17,8 +17,9 @@
   <% end %>
 </aside>
 <div class="col-md-8">
+  <%= render 'form_follow' if logged_in? %>
   <% if @user.tweets.any? %>
-        <h3>Tweets (<%= @user.tweets.count %>)</h3>
+    <h3>Tweets (<%= @user.tweets.count %>)</h3>
     <ol class="tweets">
       <%= render @tweets %>
     </ol>

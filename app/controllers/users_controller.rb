@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:edit, :update]
+  before_action :logged_in_user, only: [:index, :edit, :update, :following, :followers]
 
   def index
     @users = User.all
+    @user_type = "All"
   end
 
   def new
@@ -38,6 +39,20 @@ class UsersController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def following
+    @user = User.find(params[:id])
+    @users = User.find(params[:id]).following
+    @title = "Following"
+    render 'show_follow'
+  end
+
+  def followers
+    @user = User.find(params[:id])
+    @users = User.find(params[:id]).followers
+    @title = "Followed"
+    render 'show_follow'
   end
 
   private
