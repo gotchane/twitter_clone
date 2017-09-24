@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170924061424) do
+ActiveRecord::Schema.define(version: 20170924070638) do
 
   create_table "relationships", force: :cascade do |t|
     t.integer "follower_id"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20170924061424) do
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.string "avater"
+    t.text "profile"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

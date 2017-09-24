@@ -38,13 +38,11 @@ section {
 
 aside {
   section {
-      margin-top: 20px;
       padding: 10px 0;
   }
     h1 {
       margin: 0px;
       font-size: 16px;
-      padding-left: 10px;
   }
 }
 
@@ -119,7 +117,18 @@ file_upload
 avater
 *********************************/
 
+.user_info {
+  overflow: hidden;
+  .left {
+    float: left;
+  }
+  .right {
+    overflow: hidden;
+  }
+}
+
 .avater {
+  width: 80px;
   img {
     float: left;
     padding: 7px;

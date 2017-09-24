@@ -5,6 +5,7 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, 
             length: {maximum: 255}, format: { with: VALID_EMAIL_REGEX }
   validates :password, presence: true, length: { minimum: 6 }
+  validates :profile, length: {maximum: 100}
   has_secure_password
   has_many :tweets
   has_many :active_relationships, class_name:  "Relationship",
