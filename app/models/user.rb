@@ -17,7 +17,6 @@ class User < ApplicationRecord
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
   mount_uploader :avater, AvaterUploader
-  #validate :avater_size
 
   def follow(other_user)
     active_relationships.create(followed_id: other_user.id)
