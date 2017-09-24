@@ -1,4 +1,5 @@
 <li id="tweet-<%= tweet.id %>">
+  <span class="avater"><%= image_tag tweet.user.avater? ? tweet.user.avater.url : "no-image.jpg", :width => '50' %></span>
   <span class="user"><%= link_to tweet.user.name, tweet.user %></span>
   <span class="content"><%= tweet.tweet_text %></span>
   <span class="image"><%= image_tag tweet.image.url if tweet.image? %>

@@ -22,6 +22,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @avater_url = @user.avater? ? @user.avater.url : "app/assets/images/sample-user.png"
     @tweet_post = @user.tweets.new
     if @user == current_user
       @tweets = Tweet.where("user_id IN (?) OR user_id = ?", @user.following_ids, @user.id).paginate(page: params[:page])
@@ -53,18 +54,15 @@ class UsersController < ApplicationController
 
   def followers
     @user = User.find(params[:id])
+    @avater_url = @user.avater? ? @user.avater.url : "app/assets/images/sample-user.png"
     @users = User.find(params[:id]).followers
     @title = "Followed"
     render 'show_follow'
   end
 
-  def feed
-    Tweet.where("user_id IN (?) OR user_id = ?", following_ids, id)
-  end
-
   private
     def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :avater)
     end
 
     def logged_in_user

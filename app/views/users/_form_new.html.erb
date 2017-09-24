@@ -15,6 +15,11 @@
   <%= f.label :email %>
   <%= f.email_field :email %>
 
+  <span class="file_upload">
+    <%= f.label :avater %>
+    <%= f.file_field :avater, accept: 'image/jpeg,image/gif,image/png' %>
+  </span>
+
   <%= f.label :password %>
   <%= f.password_field :password %>
 
