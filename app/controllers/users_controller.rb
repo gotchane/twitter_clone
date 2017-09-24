@@ -3,7 +3,6 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
-    @user_type = "All"
   end
 
   def new
@@ -23,8 +22,12 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @tweets = @user.tweets.paginate(page: params[:page])
     @tweet_post = @user.tweets.new
+    if @user == current_user
+      @tweets = Tweet.where("user_id IN (?) OR user_id = ?", @user.following_ids, @user.id).paginate(page: params[:page])
+    else
+      @tweets = @user.tweets.paginate(page: params[:page])
+    end
   end
 
   def edit
@@ -53,6 +56,10 @@ class UsersController < ApplicationController
     @users = User.find(params[:id]).followers
     @title = "Followed"
     render 'show_follow'
+  end
+
+  def feed
+    Tweet.where("user_id IN (?) OR user_id = ?", following_ids, id)
   end
 
   private
