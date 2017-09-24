@@ -11,7 +11,7 @@ class TweetsController < ApplicationController
       flash[:success] = "Tweet succeeded!"
       redirect_to @user
     else
-      flash[:danger] = "Tweet failed! please tweet under 140 letters."
+      flash[:danger] = "Tweet failed!"
       redirect_to @user
     end
   end
@@ -25,6 +25,6 @@ class TweetsController < ApplicationController
 
   private
     def tweet_params
-      params.require(:tweet).permit(:tweet_text,:user_id)
+      params.require(:tweet).permit(:tweet_text,:user_id,:image)
     end
 end

@@ -36,7 +36,6 @@ class UsersController < ApplicationController
       flash.now[:success] = "Updating user profile succeeded!"
       redirect_to @user
     else
-      flash.now[:denger] = "Updating user profile failed!"
       render 'edit'
     end
   end
