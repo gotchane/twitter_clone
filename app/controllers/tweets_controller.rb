@@ -11,7 +11,6 @@ class TweetsController < ApplicationController
       flash[:success] = "Tweet succeeded!"
       redirect_to @user
     else
-      flash[:danger] = "Tweet failed!"
       @tweet_post = @tweet
       @tweets = Tweet.current_user_feeds(@user).paginate(page: params[:page])
       render 'users/show'
