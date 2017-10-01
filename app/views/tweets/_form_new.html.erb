@@ -1,20 +1,11 @@
 <%= form_for(tweet) do |f| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this tweet from being saved:</h2>
-      <ul>
-      <% @user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render 'partials/error_messages', object: f.object %>
   <%= f.label :tweet_text %>
-  <%= f.text_area :tweet_text, placeholder: "Write new tweet..." %>
+  <%= f.text_area :tweet_text, placeholder: 'Write new tweet...' %>
   <span class="file_upload">
     <%= f.label :image %>
     <%= f.file_field :image, accept: 'image/jpeg,image/gif,image/png' %>
   </span>
   <%= f.hidden_field :user_id, value: tweet.user_id %>
-  <%= f.submit "Tweet", class: "btn btn-primary" %>
+  <%= f.submit 'Tweet', class: 'btn btn-primary' %>
 <% end %>

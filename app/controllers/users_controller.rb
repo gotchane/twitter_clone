@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :following, :followers]
+  before_action :set_user,       only: [:show, :edit, :update, :following, :followers]
 
   def index
     @users = User.all
@@ -21,22 +22,18 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
-    @avater_url = @user.avater? ? @user.avater.url : "app/assets/images/sample-user.png"
     @tweet_post = @user.tweets.new
     if @user == current_user
-      @tweets = Tweet.where("user_id IN (?) OR user_id = ?", @user.following_ids, @user.id).paginate(page: params[:page])
+      @tweets = Tweet.current_user_feeds(@user).paginate(page: params[:page])
     else
       @tweets = @user.tweets.paginate(page: params[:page])
     end
   end
 
   def edit
-    @user = User.find(params[:id])
   end
 
   def update
-    @user = User.find(params[:id])
     if @user.update_attributes(user_params)
       flash.now[:success] = "Updating user profile succeeded!"
       redirect_to @user
@@ -46,21 +43,22 @@ class UsersController < ApplicationController
   end
 
   def following
-    @user = User.find(params[:id])
-    @users = User.find(params[:id]).following
+    @users = @user.following
     @title = "Following"
     render 'show_follow'
   end
 
   def followers
-    @user = User.find(params[:id])
-    @avater_url = @user.avater? ? @user.avater.url : "app/assets/images/sample-user.png"
-    @users = User.find(params[:id]).followers
+    @users = @user.followers
     @title = "Followed"
     render 'show_follow'
   end
 
   private
+    def set_user
+      @user = User.find(params[:id])
+    end
+
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation, :avater, :profile)
     end

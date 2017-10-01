@@ -4,15 +4,29 @@
   <% provide(:title, @user.name) %>
   <section class="user_info">
     <div class="left">
-    <span class="avater"><%= image_tag @user.avater? ? @user.avater.url : "no-image.jpg", :width => '80' %></span>
+      <span class="avater">
+        <%= image_tag avater_url(@user), :width => '80' %>
+      </span>
     </div>
     <div class="right">
-    <h1>Name</h1>
-    <p><%= @user.name %></p>
-    <h1>Email</h1>
-    <p><%= @user.email %></p>
-    <h1>Profile</h1>
-    <p><%= @user.profile %></p>
+      <h1>
+        Name
+      </h1>
+      <p>
+        <%= @user.name %>
+      </p>
+      <h1>
+        Email
+      </h1>
+      <p>
+        <%= @user.email %>
+      </p>
+      <h1>
+        Profile
+      </h1>
+      <p>
+        <%= @user.profile %>
+      </p>
     </div>
   </section>
   <section class="stats">
@@ -20,13 +34,15 @@
   </section>
   <% if @user == current_user %>
     <section class="tweet_form">
-      <%= render "tweets/form_new", {user: @user, tweet: @tweet_post} %>
+      <%= render 'tweets/form_new', {user: @user, tweet: @tweet_post} %>
     </section>
   <% end %>
 </aside>
 <div class="col-md-8">
-  <%= render 'form_follow' if logged_in? %>
-    <h3>Tweets (<%= @tweets.count %>)</h3>
+  <%= render 'users/form_follow' if logged_in? %>
+    <h3>
+      Tweets (<%= @tweets.count %>)
+    </h3>
     <% if @tweets.any? %>
       <ol class="tweets">
         <%= render @tweets %>
