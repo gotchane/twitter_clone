@@ -78,3 +78,7 @@ gem 'carrierwave', '~> 1.0'
 
 # resize image
 gem 'mini_magick', '~> 4.7'
+
+gem 'fog'
+
+gem 'dotenv-rails'

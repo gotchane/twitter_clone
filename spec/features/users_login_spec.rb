@@ -11,6 +11,7 @@ RSpec.feature 'Log in', type: :feature do
     expect(page).to have_content 'Tweets'
     expect(page).to have_content(user.name)
     expect(page).to have_content(user.email)
+    expect(page).to have_content(user.profile)
     expect(page).not_to have_content 'Log in'
     expect(page).to have_content 'Log out'
     # Log out
