@@ -3,9 +3,11 @@
 <ul class="users">
   <% @users.each do |user| %>
     <li>
-      <span class="avater"><%= image_tag user.avater? ? user.avater.url : "no-image.jpg", :width => '80' %></span>
+      <span class="avater">
+        <%= image_tag avater_url(user), :width => '80' %>
+      </span>
       <%= link_to user.name, user %>
     </li>
   <% end %>
 </ul>
-<%= link_to "Back to previous page", :back %>
+<%= link_to 'Back to previous page', :back %>

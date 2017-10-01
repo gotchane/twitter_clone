@@ -1,21 +1,33 @@
 <aside class="col-md-4">
   <% provide(:title, @user.name) %>
   <section class="user_info">
-    <span class="avater"><%= image_tag @user.avater? ? @user.avater.url : "no-image.jpg", :width => '80' %></span>
-    <h1><%= @user.name %></h1>
-    <h1><%= @user.email %></h1>
-    <h1><%= @user.tweets.count %> Tweets</h1>
+    <span class="avater">
+      <%= image_tag avater_url(@user), :width => "80" %>
+    </span>
+    <h1>
+      <%= @user.name %>
+    </h1>
+    <h1>
+      <%= @user.email %>
+    </h1>
+    <h1>
+      <%= @user.tweets.count %> Tweets
+    </h1>
   </section>
   <section class="stats">
     <%= render 'partials/stats' %>
   </section>
 </aside>
 <div class="col-md-8">
-    <h1><%= @title %> Users</h1>
+    <h1>
+      <%= @title %> Users
+    </h1>
     <ul class="users">
       <% @users.each do |user| %>
         <li>
-          <span class="avater"><%= image_tag user.avater? ? user.avater.url : "no-image.jpg", :width => '80' %></span>
+          <span class="avater">
+            <%= image_tag avater_url(user), :width => '80' %>
+          </span>
           <%= link_to user.name, user %>
         </li>
       <% end %>
