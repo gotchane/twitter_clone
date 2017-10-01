@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   def show
     @tweet_post = @user.tweets.new
     if @user == current_user
-      @tweets = Tweet.where("user_id IN (?) OR user_id = ?", @user.following_ids, @user.id).paginate(page: params[:page])
+      @tweets = Tweet.current_user_feeds(@user).paginate(page: params[:page])
     else
       @tweets = @user.tweets.paginate(page: params[:page])
     end

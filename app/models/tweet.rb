@@ -6,6 +6,10 @@ class Tweet < ApplicationRecord
   mount_uploader :image, ImageUploader
   validate :image_size
 
+  def self.current_user_feeds(user)
+    self.where("user_id IN (?) OR user_id = ?", user.following_ids, user.id)
+  end
+
   private
     def image_size
       if image.size > 2.megabytes
