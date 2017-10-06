@@ -14,8 +14,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       log_in @user
-      flash.now[:success] = "Welcome to the Twitter clone!"
-      redirect_to @user
+      redirect_to @user, success: "Welcome to the Twitter clone!"
     else
       render 'new'
     end
@@ -35,8 +34,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update_attributes(user_params)
-      flash.now[:success] = "Updating user profile succeeded!"
-      redirect_to @user
+      redirect_to @user, success: "Updating user profile succeeded!"
     else
       render 'edit'
     end
@@ -65,8 +63,7 @@ class UsersController < ApplicationController
 
     def logged_in_user
       unless logged_in?
-        flash[:danger] = "Please log in."
-        redirect_to login_url
+        redirect_to login_url, danger: "Please log in."
       end
     end
 end

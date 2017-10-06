@@ -8,8 +8,7 @@ class TweetsController < ApplicationController
     @user = User.find(tweet_params[:user_id])
     @tweet = @user.tweets.build(tweet_params)
     if @tweet.save
-      flash[:success] = "Tweet succeeded!"
-      redirect_to @user
+      redirect_to @user, success: "Tweet succeeded!"
     else
       @tweet_post = @tweet
       @tweets = Tweet.current_user_feeds(@user).paginate(page: params[:page])
@@ -20,8 +19,7 @@ class TweetsController < ApplicationController
   def destroy
     @tweet = Tweet.find_by(id: params[:id])
     @tweet.destroy
-    flash[:success] = "Tweet deleted successfully!"
-    redirect_to request.referrer
+    redirect_to request.referrer, success: "Tweet deleted successfully!"
   end
 
   private
