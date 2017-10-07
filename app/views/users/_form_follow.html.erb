@@ -1,9 +1,0 @@
-<% if @user != current_user %>
-  <div id="follow_form">
-  <% if current_user.following?(@user) %>
-    <%= button_to 'Unfollow', [:unfollow, @user], method: :delete, class: 'btn' %>
-  <% else %>
-    <%= button_to 'Follow', [:follow, @user], method: :post, class: 'btn btn-primary' %>
-  <% end %>
-  </div>
-<% end %>
