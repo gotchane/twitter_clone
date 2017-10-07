@@ -42,14 +42,10 @@ class UsersController < ApplicationController
 
   def following
     @users = @user.following
-    @title = "Following"
-    render 'show_follow'
   end
 
   def followers
     @users = @user.followers
-    @title = "Followed"
-    render 'show_follow'
   end
 
   private
