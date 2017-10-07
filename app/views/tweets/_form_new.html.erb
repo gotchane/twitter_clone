@@ -6,6 +6,5 @@
     <%= f.label :image %>
     <%= f.file_field :image, accept: 'image/jpeg,image/gif,image/png' %>
   </span>
-  <%= f.hidden_field :user_id, value: tweet.user_id %>
   <%= f.submit 'Tweet', class: 'btn btn-primary' %>
 <% end %>
