@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   delete '/logout',     to: 'sessions#destroy'
   resources :users do
     member do
-      get :following, :followers
+      get    :following, :followers
+      post   :follow
+      delete :unfollow
     end
   end
   resources :tweets,           only: [:create, :destroy]

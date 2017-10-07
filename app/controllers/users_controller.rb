@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :logged_in_user, only: [:new, :create]
-  before_action :set_user,       only: [:show, :edit, :update, :following, :followers]
+  before_action :set_user,       only: [:show, :edit, :update, :following, :followers, :follow, :unfollow]
 
   def index
     @users = User.all
@@ -46,6 +46,16 @@ class UsersController < ApplicationController
 
   def followers
     @users = @user.followers
+  end
+
+  def follow
+    current_user.follow(@user)
+    redirect_to @user
+  end
+
+  def unfollow
+    current_user.unfollow(@user)
+    redirect_to @user
   end
 
   private
