@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :logged_in_user, only: [:new, :create]
-  before_action :set_user,       only: [:show, :edit, :update, :following, :followers, :follow, :unfollow]
+  before_action :set_user, except: [:index, :new, :create]
 
   def index
     @users = User.all
