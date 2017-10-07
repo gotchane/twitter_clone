@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :show, :edit, :update, :following, :followers]
+  skip_before_action :logged_in_user, only: [:new, :create]
   before_action :set_user,       only: [:show, :edit, :update, :following, :followers]
 
   def index
@@ -59,11 +59,5 @@ class UsersController < ApplicationController
 
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation, :avater, :profile)
-    end
-
-    def logged_in_user
-      unless logged_in?
-        redirect_to login_url, danger: "Please log in."
-      end
     end
 end
