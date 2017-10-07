@@ -1,0 +1,33 @@
+%p= notice
+%aside.col-md-4
+  - provide(:title, @user.name)
+  %section.user_info
+    .left
+      %span.avater
+        = image_tag avater_url(@user), :width => '80'
+    .right
+      %h1
+        Name
+      %p
+        = @user.name
+      %h1
+        Email
+      %p
+        = @user.email
+      %h1
+        Profile
+      %p
+        = @user.profile
+  %section.stats
+    = render 'partials/stats'
+  - if @user == current_user
+    %section.tweet_form
+      = render 'tweets/form_new', {user: @user, tweet: @tweet_post}
+.col-md-8
+  = render 'users/form_follow' if logged_in?
+  %h3
+    Tweets (#{@tweets.count})
+  - if @tweets.any?
+    %ol.tweets
+      = render @tweets
+    = will_paginate @tweets

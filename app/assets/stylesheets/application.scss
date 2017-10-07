@@ -17,7 +17,6 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-
 @mixin box_sizing {
   -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;
@@ -56,90 +55,11 @@ input, textarea, select {
    margin-bottom: 15px;
 }
 
-/********************************
-users
-*********************************/
-.users {
-  list-style: none;
-  li {
-    padding: 10px 0;
-    border-top: 1px solid #e8e8e8;
-    overflow: auto;
-  }
-}
-
-/********************************
-tweets
-*********************************/
-
-.tweets {
-  list-style: none;
-  padding: 0;
-  li {
-    padding: 10px 0;
-    border-top: 1px solid #e8e8e8;
-  }
-  .user {
-    margin-top: 5em;
-    padding-top: 0;
-  }
-  .content {
-    display: block;
-    margin-left: 60px;
-    img {
-      display: block;
-      padding: 5px 0;
-    }
-  }
-  .timestamp {
-    color: #949494;
-    display: block;
-    margin-left: 60px;
-  }
-  .gravatar {
-    float: left;
-    margin-right: 10px;
-    margin-top: 5px;
-  }
-}
-
-/********************************
-file_upload
-*********************************/
-
 .file_upload {
   input {
     border: none;
   }
 }
-
-/********************************
-avater
-*********************************/
-
-.user_info {
-  overflow: hidden;
-  .left {
-    float: left;
-  }
-  .right {
-    overflow: hidden;
-  }
-}
-
-.avater {
-  width: 80px;
-  img {
-    float: left;
-    padding: 7px;
-    font-size: 5px;
-  }
-}
-
-/********************************
-footer
-*********************************/
-
 
 footer {
     margin-top: 45px;

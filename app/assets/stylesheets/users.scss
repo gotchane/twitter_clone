@@ -2,3 +2,32 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.users {
+  list-style: none;
+  li {
+    padding: 10px 0;
+    border-top: 1px solid #e8e8e8;
+    overflow: auto;
+  }
+}
+
+.user_info {
+  overflow: hidden;
+  .left {
+    float: left;
+  }
+  .right {
+    overflow: hidden;
+  }
+}
+
+.avater {
+  width: 80px;
+  img {
+    float: left;
+    padding: 7px;
+    font-size: 5px;
+  }
+}
+
+
