@@ -10,3 +10,24 @@
     overflow: auto;
   }
 }
+
+.user_info {
+  overflow: hidden;
+  .left {
+    float: left;
+  }
+  .right {
+    overflow: hidden;
+  }
+}
+
+.avater {
+  width: 80px;
+  img {
+    float: left;
+    padding: 7px;
+    font-size: 5px;
+  }
+}
+
+

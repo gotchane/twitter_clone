@@ -17,7 +17,6 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-
 @mixin box_sizing {
   -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;
@@ -56,44 +55,11 @@ input, textarea, select {
    margin-bottom: 15px;
 }
 
-
-/********************************
-file_upload
-*********************************/
-
 .file_upload {
   input {
     border: none;
   }
 }
-
-/********************************
-avater
-*********************************/
-
-.user_info {
-  overflow: hidden;
-  .left {
-    float: left;
-  }
-  .right {
-    overflow: hidden;
-  }
-}
-
-.avater {
-  width: 80px;
-  img {
-    float: left;
-    padding: 7px;
-    font-size: 5px;
-  }
-}
-
-/********************************
-footer
-*********************************/
-
 
 footer {
     margin-top: 45px;
