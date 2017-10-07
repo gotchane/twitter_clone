@@ -12,7 +12,7 @@
   <span class="timestamp">
     Posted <%= time_ago_in_words(tweet.created_at) %> ago.
     <% if tweet.user == current_user %>
-      <%= link_to 'delete', tweet, method: :delete, data: { confirm: 'Are you sure?' } %>
+      <%= link_to 'delete', [tweet.user,tweet], method: :delete, data: { confirm: 'Are you sure?' } %>
     <% end %>
   </span>
 </li>
