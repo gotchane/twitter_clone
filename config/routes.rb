@@ -10,7 +10,6 @@ Rails.application.routes.draw do
       post   :follow
       delete :unfollow
     end
+    resources :tweets,  only: [:create, :destroy]
   end
-  resources :tweets,           only: [:create, :destroy]
-  resources :relationships,    only: [:create, :destroy]
 end
