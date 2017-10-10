@@ -6,9 +6,9 @@ class Tweet < ApplicationRecord
   mount_uploader :image, ImageUploader
   validate :image_size
 
-  def self.current_user_feeds(user)
-    self.where("user_id IN (?) OR user_id = ?", user.following_ids, user.id)
-  end
+  scope :current_user_feeds, -> (user) {
+    where("user_id IN (?) OR user_id = ?", user.following_ids, user.id)
+  }
 
   private
     def image_size
