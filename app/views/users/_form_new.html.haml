@@ -2,8 +2,10 @@
   = render 'partials/error_messages', object: f.object
   = f.input :name
   = f.input :email, as: :email
-  %span.file_upload
-    = f.input :avater, accept: 'image/jpeg,image/gif,image/png', as: :file
+  = f.input :avater,
+            accept: 'image/jpeg,image/gif,image/png',
+            as: :file,
+            input_html: { class: 'file-upload' }
   = f.input :profile, as: :text
   = f.input :password, as: :password
   = f.input :password_confirmation, label:'Password Confirmation', as: :password

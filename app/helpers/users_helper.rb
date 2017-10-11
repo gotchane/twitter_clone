@@ -4,6 +4,6 @@ module UsersHelper
   end
 
   def avater_image(user)
-    image_tag avater_url(user), class: 'avater_image'
+    image_tag avater_url(user), class: 'user-avater'
   end
 end

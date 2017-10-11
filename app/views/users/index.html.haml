@@ -1,8 +1,7 @@
 %h1 All users
 %ul.users
   - @users.each do |user|
-    %li
-      %span.avater
-        = avater_image(user)
+    %li.users__item
+      = avater_image(user)
       = link_to user.name, user
 = link_to 'Back to previous page', :back

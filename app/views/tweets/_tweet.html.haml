@@ -1,12 +1,13 @@
-%li{id: "tweet-#{tweet.id}"}
-  %span.avater
-    = image_tag avater_url(tweet.user), class: 'feed_image'
-  %span.user
-    = link_to tweet.user.name, tweet.user
-  %span.content
-    = tweet.tweet_text
-    = image_tag tweet.image.url if tweet.image?
-  %span.timestamp
+%li{class: "tweets__item tweets__item-no_#{tweet.id}"}
+  .tweets__item__avater
+    = image_tag avater_url(tweet.user), class: 'tweets-avater'
+  .tweets__item__box
+    %span.tweets__item__box__user
+      = link_to tweet.user.name, tweet.user
+    %span.tweets__item__box__content
+      = tweet.tweet_text
+      = image_tag tweet.image.url, class: 'tweets__item__content__image' if tweet.image?
+    %span.tweets__item__box__timestamp
     Posted #{time_ago_in_words(tweet.created_at)} ago.
     - if tweet.user == current_user
       = link_to 'delete', [tweet.user,tweet], method: :delete, data: { confirm: 'Are you sure?' }

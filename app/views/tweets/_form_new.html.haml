@@ -1,6 +1,8 @@
 = simple_form_for([user,tweet], html: { novalidate: true }) do |f|
   = render 'partials/error_messages', object: f.object
   = f.input :tweet_text, placeholder:'Write new tweet...', as: :text
-  %span.file_upload
-    = f.input :image, accept: 'image/jpeg,image/gif,image/png', as: :file
+  = f.input :image,
+            accept: 'image/jpeg,image/gif,image/png',
+            as: :file,
+            input_html: { class: 'file_upload' }
   = f.button :submit, 'Tweet', class: 'btn btn-primary'

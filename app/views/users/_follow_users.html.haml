@@ -1,15 +1,16 @@
 %aside.col-md-4
   - provide(:title, @user.name)
   %section.user_info
-    %span.avater
+    .user-info__left
       = avater_image(@user)
-    %h1
-      = @user.name
-    %h1
-      = @user.email
-    %h1
-      = @user.tweets.count
-      Tweets
+    .user-info__right
+      %h1
+        = @user.name
+      %h1
+        = @user.email
+      %h1
+        = @user.tweets.count
+        Tweets
   %section.stats
     = render 'partials/stats'
 .col-md-8
@@ -18,7 +19,6 @@
     Users
   %ul.users
     - @users.each do |user|
-      %li
-        %span.avater
-          = avater_image(user)
+      %li.users__item
+        = avater_image(user)
         = link_to user.name, user
