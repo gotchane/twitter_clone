@@ -24,52 +24,49 @@
 }
 
 body {
-    padding-top: 60px;
+  padding-top: 60px;
 }
 
 section {
-    overflow: auto;
+  overflow: auto;
 }
 
 .gravatar {
   float: left;
 }
 
-aside {
-  section {
-      padding: 10px 0;
-  }
-    h1 {
-      margin: 0px;
-      font-size: 16px;
-  }
+aside section {
+  padding: 10px 0;
+}
+
+aside h1 {
+  margin: 0px;
+  font-size: 16px;
 }
 
 h2 {
-   font-size: 12px;
+ font-size: 12px;
 }
 
 input, textarea, select {
-   border: 1px solid #bbb;
-   width: 100%;
-   margin-bottom: 15px;
+  border: 1px solid #bbb;
+  width: 100%;
+  margin-bottom: 15px;
 }
 
-.file_upload {
-  input {
-    border: none;
-  }
+.file_upload input {
+  border: none;
 }
 
 footer {
-    margin-top: 45px;
-    padding-top: 10px;
-    border-top: 1px solid #eaeaea;
-    color: #777;
+  margin-top: 45px;
+  padding-top: 10px;
+  border-top: 1px solid #eaeaea;
+  color: #777;
 }
 
 footer a {
-   color: #555;
+  color: #555;
 }
 
 footer a:hover {
