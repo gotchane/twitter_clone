@@ -1,6 +1,6 @@
 %li{id: "tweet-#{tweet.id}"}
   %span.avater
-    = image_tag avater_url(tweet.user), :width => '50'
+    = image_tag avater_url(tweet.user), class: 'feed_image'
   %span.user
     = link_to tweet.user.name, tweet.user
   %span.content

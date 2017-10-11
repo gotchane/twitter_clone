@@ -2,7 +2,7 @@
   - provide(:title, @user.name)
   %section.user_info
     %span.avater
-      = image_tag avater_url(@user), :width => '80'
+      = avater_image(@user)
     %h1
       = @user.name
     %h1
@@ -20,5 +20,5 @@
     - @users.each do |user|
       %li
         %span.avater
-          = image_tag avater_url(user), :width => '80'
+          = avater_image(user)
         = link_to user.name, user
