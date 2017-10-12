@@ -1,11 +1,9 @@
-%p= notice
 %aside.col-md-4
   - provide(:title, @user.name)
-  %section.user_info
-    .left
-      %span.avater
-        = image_tag avater_url(@user), :width => '80'
-    .right
+  %section.user-info
+    .user-info__left
+      = avater_image(@user)
+    .user-info__right
       %h1
         Name
       %p

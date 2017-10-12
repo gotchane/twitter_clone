@@ -4,9 +4,9 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true,
             length: {maximum: 255}, format: { with: VALID_EMAIL_REGEX }
-  validates :password, presence: true, length: { minimum: 6 }
   validates :profile, length: {maximum: 100}
   has_secure_password
+  validates :password, presence: true, length: { minimum: 6 }, :if => :validate_password?
   has_many :tweets
   has_many :active_relationships,  class_name:  "Relationship",
                                    foreign_key: "follower_id",
@@ -19,14 +19,19 @@ class User < ApplicationRecord
   mount_uploader :avater, AvaterUploader
 
   def follow(other_user)
-    active_relationships.create(followed_id: other_user.id)
+    active_relationships.create(followed: other_user)
   end
 
   def unfollow(other_user)
-    active_relationships.find_by(followed_id: other_user.id).destroy
+    active_relationships.find_by(followed: other_user).destroy
   end
 
   def following?(other_user)
     following.include?(other_user)
   end
+
+  private
+    def validate_password?
+      password.present? || password_confirmation.present?
+    end
 end
