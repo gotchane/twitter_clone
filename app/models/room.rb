@@ -1,2 +1,3 @@
 class Room < ApplicationRecord
+  validates :create_user_id, presence: true
 end
