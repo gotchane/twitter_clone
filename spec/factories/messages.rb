@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :message do
-    body ""
-    room ""
+    body "This is a test message"
+    room_id 1
     user_id 1
   end
 end
