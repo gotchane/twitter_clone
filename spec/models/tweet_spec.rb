@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Tweet, type: :model do
-  let!(:user) { FactoryGirl.create(:user, :name_example) }
+  let!(:user) { FactoryGirl.create(:user) }
   describe 'valid tweet model' do
     it "is valid" do
       tweet = user.tweets.create(:tweet_text => 'test', :user_id => user.id)

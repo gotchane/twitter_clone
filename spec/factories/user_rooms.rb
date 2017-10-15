@@ -2,10 +2,10 @@
 
 FactoryGirl.define do
   factory :user_room do
-    user ""
-    room ""
+    room_id 1
+    user_id 1
     latest_read_message_id ""
     last_history_deleted ""
-    available_flag false
+    available_flag true
   end
 end
