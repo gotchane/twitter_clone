@@ -1,0 +1,8 @@
+%h1 Room index
+
+%ul.rooms
+  - @rooms.each do |room|
+    %li.rooms__item
+      %span 
+        = room.create_user_id
+= link_to 'Back to previous page', :back
