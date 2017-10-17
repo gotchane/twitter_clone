@@ -25,7 +25,7 @@ RSpec.describe UsersController, type: :controller do
       expect(response.body).to include('Email')
       expect(response.body).to include('Password')
       expect(response.body).to include('Password Confirmation')
-      expect(response.body).to include('Create my account')
+      expect(response.body).to include('Create user')
       expect(response.body).to include('Back')
     end
   end

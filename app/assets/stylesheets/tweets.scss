@@ -2,29 +2,46 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.tweets-avater {
+  width: 50px;
+  float: left;
+  margin: 0 10px;
+}
+
 .tweets {
   list-style: none;
   padding: 0;
-  li {
-    padding: 10px 0;
-    border-top: 1px solid #e8e8e8;
-  }
-  .user {
-    margin-top: 5em;
-    padding-top: 0;
-  }
-  .content {
-    display: block;
-    margin-left: 60px;
-    img {
-      display: block;
-      padding: 5px 0;
-    }
-  }
-  .timestamp {
-    color: #949494;
-    display: block;
-    margin-left: 60px;
-  }
 }
 
+.tweets__item {
+  padding: 10px 0;
+  border-top: 1px solid #e8e8e8;
+  overflow: hidden;
+}
+
+.tweets__item__avater {
+  float:left;
+}
+
+.tweets__item__box {
+  overflow: hidden;
+}
+
+.tweets__item__box__user {
+  margin-top: 5em;
+  padding-top: 0;
+}
+
+.tweets__item__box__content {
+  display: block;
+}
+
+.tweets__item__box__content__image {
+  display: block;
+  padding: 5px 0;
+}
+
+.tweets__item__box__timestamp {
+  display: block;
+  color: #949494;
+}
