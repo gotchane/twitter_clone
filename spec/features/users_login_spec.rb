@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Log in', type: :feature do
-  let!(:user) { FactoryGirl.create(:user, :name_example) }
+  let!(:user) { FactoryGirl.create(:user) }
   scenario 'login and logout by valid user' do
     login_as(user)
     expect(page).to have_content 'Tweets'
