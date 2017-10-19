@@ -23,6 +23,11 @@ FactoryGirl.define do
       user_id 1
     end
 
+    trait :second_room_alice do
+      room_id 2
+      user_id 2
+    end
+
     trait :second_room_carol do
       room_id 2
       user_id 3
