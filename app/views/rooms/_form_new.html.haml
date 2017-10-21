@@ -1,0 +1,4 @@
+= simple_form_for(current_user) do |f|
+  = f.button :submit, class: 'btn btn-primary'
+  = render 'partials/error_messages', object: f.object
+  = f.input :email, as: :boolean

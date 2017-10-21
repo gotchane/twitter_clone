@@ -8,12 +8,12 @@
     = link_to user_room_path(current_user,room) do
       %li.rooms__item
         .rooms__item__avater
-          = image_tag avater_url(room.messages.first.user), class: 'rooms-avater'
+          = image_tag avater_url(room.users.first), class: 'rooms-avater'
         .rooms__item__box
           %span.rooms__item__box__user
             - room.users.each do |user|
               = user.name + ","
           %span.rooms__item__box__msg
-            = room.messages.last.body
+            = room.messages.last.body unless room.messages.empty?
 
 = link_to 'Back to previous page', :back
