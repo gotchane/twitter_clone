@@ -5,6 +5,7 @@ RSpec.describe Message, type: :model do
   let!(:message) { FactoryGirl.build(:message) }
   describe 'table association' do
     it { should belong_to(:room) }
+    it { should belong_to(:user) }
   end
   describe 'valid message model' do
     it "is valid" do

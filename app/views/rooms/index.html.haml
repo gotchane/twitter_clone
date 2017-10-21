@@ -1,8 +1,16 @@
-%h1 Room index
+%h1 Direct Messages
 
 %ul.rooms
   - @rooms.each do |room|
-    %li.rooms__item
-      %span 
-        = room.create_user_id
+    = link_to user_room_path(current_user,room) do
+      %li.rooms__item
+        .rooms__item__avater
+          = image_tag avater_url(room.messages.first.user), class: 'rooms-avater'
+        .rooms__item__box
+          %span.rooms__item__box__user
+            - room.users.each do |user|
+              = user.name + ","
+          %span.rooms__item__box__msg
+            = room.messages.last.body
+
 = link_to 'Back to previous page', :back

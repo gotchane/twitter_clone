@@ -59,6 +59,7 @@ RSpec.configure do |config|
 
   # rspec util helpers
   config.include UtilHelpers
+  config.include FactoryGirl::Syntax::Methods
 end
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|

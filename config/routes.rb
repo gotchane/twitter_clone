@@ -11,6 +11,6 @@ Rails.application.routes.draw do
       delete :unfollow
     end
     resources :tweets,  only: [:create, :destroy]
-    resources :rooms,  only: [:index, :new, :create, :destroy]
+    resources :rooms,  only: [:index, :show, :new, :create, :destroy]
   end
 end

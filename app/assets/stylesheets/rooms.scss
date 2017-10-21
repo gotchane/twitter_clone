@@ -1,3 +1,48 @@
 // Place all the styles related to the rooms controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.rooms-avater {
+  width: 50px;
+  float: left;
+  margin: 0 10px;
+}
+
+.rooms {
+  list-style: none;
+  padding: 0;
+}
+
+.rooms a {
+  text-decoration: none;
+}
+
+.rooms a:hover {
+  text-decoration: none;
+}
+
+.rooms__item {
+  padding: 10px 0;
+  overflow: auto;
+  border-top: 1px solid #e8e8e8;
+}
+
+.rooms__item__avater {
+  float:left;
+}
+
+.rooms__item__box {
+  overflow: hidden;
+}
+
+.rooms__item__box__user {
+  margin-top: 5em;
+  font-weight: bold;
+  padding-top: 0;
+}
+
+.rooms__item__box__msg {
+  display: block;
+  color: #b7b7b7;
+}
+
