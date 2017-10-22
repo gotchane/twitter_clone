@@ -11,8 +11,8 @@
           = image_tag avater_url(room.users.first), class: 'rooms-avater'
         .rooms__item__box
           %span.rooms__item__box__user
-            - room.users.each do |user|
-              = user.name + ","
+            - room.users.each_with_index do |user, i|
+              = room_participants(user,i)
           %span.rooms__item__box__msg
             = room.messages.last.body unless room.messages.empty?
 
