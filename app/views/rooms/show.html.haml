@@ -3,6 +3,8 @@
   - @room.users.each_with_index do |user, i|
     = room_participants(user,i)
 
+= link_to 'Delete messages history', [current_user,@room], method: :delete, data: { confirm: 'Are you sure?' }, class: 'room-messages__delete'
+
 %ul.room-messages
   .page
     = render 'message'

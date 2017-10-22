@@ -9,4 +9,20 @@ class Room < ApplicationRecord
 
   end
 
+  scope :check_available, -> do
+    includes(:user_rooms).where("user_rooms.available_flag = ?", true)
+  end
+
+  def delete_messages_history(user)
+    self.user_rooms.find_by(user_id: user.id).update_attributes(available_flag: false)
+  end
+
+  def unavailable_participant?
+    count = self.user_rooms.where("user_rooms.available_flag = ?", false).count
+    count != 0 ? true : false
+  end
+
+  def reactivate_participant
+    self.user_rooms.update_all(available_flag: true)
+  end
 end

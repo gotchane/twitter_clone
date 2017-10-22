@@ -1,10 +1,10 @@
 class RoomsController < ApplicationController
   def index
-    @rooms = current_user.rooms.sort_by_message_created
+    @rooms = current_user.rooms.check_available.sort_by_message_created
   end
 
   def show
-    @room = current_user.rooms.find(params[:id])
+    @room = current_user.rooms.check_available.find(params[:id])
     @messages = @room.messages.order(id: "ASC").page(params[:page])
     @message_post = current_user.messages.new
     UserRoom.update_latest_read_message(@room,current_user)
@@ -26,6 +26,9 @@ class RoomsController < ApplicationController
   end
 
   def destroy
+    @room = current_user.rooms.check_available.find(params[:id])
+    @room.delete_messages_history(current_user)
+    redirect_to user_rooms_path(current_user), success: "Messages history deleted successfully!"
   end
 
   private
