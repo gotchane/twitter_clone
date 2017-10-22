@@ -7,8 +7,7 @@
         %span.room-messages__item__box__user
           = message.user.name
           %span.room-messages__item__box__read
-            - unless @room.users.count == 1
-              = read_user_count(@room.users, @room, message)
+            = read_user_count(@room.users, @room, message)
           - if message.user == current_user
             = link_to 'delete', [message.user,@room,message], method: :delete, data: { confirm: 'Are you sure?' }, class: 'room-messages__item__box__delete'
         %span.room-messages__item__box__msg
