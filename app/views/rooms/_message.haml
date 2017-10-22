@@ -7,16 +7,10 @@
         %span.room-messages__item__box__user
           = message.user.name
           %span.room-messages__item__box__read
-            - if message.user == current_user
-              - read_count = 0
-              - @room.users.each do |user|
-                - unless user == current_user ||user.user_rooms.find_by(room_id: @room.id).latest_read_message_id.nil?
-                  - if message.id < user.user_rooms.find_by(room_id: @room.id).latest_read_message_id
-                    - read_count += 1
-              Read:#{read_count}
-          %span.room-messages__item__box__timestamp
-            Posted #{time_ago_in_words(message.created_at)} ago.
+            = read_user_count(@room.users, @room, message)
           - if message.user == current_user
             = link_to 'delete', [message.user,@room,message], method: :delete, data: { confirm: 'Are you sure?' }, class: 'room-messages__item__box__delete'
         %span.room-messages__item__box__msg
           = message.body
+        %span.room-messages__item__box__timestamp
+          Posted #{time_ago_in_words(message.created_at)} ago.
