@@ -6,4 +6,4 @@
     = render 'partials/error_messages', object: f.object
     = f.fields_for @user_rooms do |user_room|
       .room-form-list
-        = user_room.collection_check_boxes :user_id, @users, :id, :name, include_hidden: false
+        = user_room.collection_check_boxes :user_ids, @users, :id, :name, include_hidden: false
