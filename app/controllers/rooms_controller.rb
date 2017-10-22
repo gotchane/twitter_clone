@@ -17,12 +17,17 @@ class RoomsController < ApplicationController
   end
 
   def create
-    @room = current_user.rooms.build(create_user_id: current_user.id)
-    current_user.save!
-    user_room_params.each do |param|
-      @room.user_rooms.create!(user_id: param)
+    if check_dup_room?(user_room_params) then
+      redirect_to new_user_room_path(current_user), danger: "Participant combination is overlapped."
+      return
+    else
+      @room = current_user.rooms.build(create_user_id: current_user.id)
+      current_user.save!
+      user_room_params.each do |param|
+        @room.user_rooms.create(user_id: param)
+      end
+      redirect_to user_room_path(current_user, @room)
     end
-    redirect_to user_room_path(current_user, @room)
   end
 
   def destroy
@@ -34,5 +39,17 @@ class RoomsController < ApplicationController
   private
     def user_room_params
       params[:room].require(:user_room).permit(user_id: [])[:user_id]
+    end
+
+    def check_dup_room?(user_room_params)
+      check_flag = false
+      current_user.rooms.each do |room|
+        match_array = user_room_params.map(&:to_i)
+        match_array << current_user.id unless match_array.include?(current_user.id)
+        if match_array.sort == room.users.ids.sort then
+          check_flag = true
+        end
+      end
+      check_flag
     end
 end

@@ -8,6 +8,6 @@ class UserRoom < ApplicationRecord
     room.user_rooms.find_by(user_id: user.id)
                    .update_attributes(
                      latest_read_message_id: room.messages.order(created_at: "DESC").first.id
-                   )
+                   ) unless room.messages.count == 0
   end
 end
