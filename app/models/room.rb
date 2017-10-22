@@ -6,5 +6,7 @@ class Room < ApplicationRecord
 
   scope :sort_by_message_created, -> do
     includes(:messages).order("messages.created_at desc")
+
   end
+
 end

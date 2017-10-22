@@ -12,7 +12,9 @@
 //
 //= require rails-ujs
 //= require turbolinks
-//= require_tree .
+//= require jquery
+//= require jquery.turbolinks
 //= require bootstrap-sprockets
 //= require bootstrap
-
+//= require infinite-scroll.pkgd.min
+//= require_tree .

@@ -5,8 +5,9 @@ class RoomsController < ApplicationController
 
   def show
     @room = current_user.rooms.find(params[:id])
-    @messages = @room.messages.order(id: "ASC")
+    @messages = @room.messages.order(id: "ASC").page(params[:page])
     @message_post = current_user.messages.new
+    UserRoom.update_latest_read_message(@room,current_user)
   end
 
   def new

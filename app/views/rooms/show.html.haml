@@ -4,19 +4,20 @@
     = room_participants(user,i)
 
 %ul.room-messages
-  - @messages.each do |message|
-    %li.room-messages__item
-      .room-messages__item__avater
-        = image_tag avater_url(message.user), class: 'rooms-avater'
-      .room-messages__item__box
-        %span.room-messages__item__box__user
-          = message.user.name
-          %span.room-messages__item__box__timestamp
-            Posted #{time_ago_in_words(message.created_at)} ago.
-          - if message.user == current_user
-            = link_to 'delete', [message.user,@room,message], method: :delete, data: { confirm: 'Are you sure?' }, class: 'room-messages__item__box__delete'
-        %span.room-messages__item__box__msg
-          = message.body
- 
+  .page
+    = render 'message'
+
 %section.message_form
   = render 'messages/form_new', {user: current_user, room: @room, message: @message_post}
+
+.message-paginate
+  = paginate @messages
+
+
+-#= javascript_include_tag 'infinite-scroll.pkgd.min'
+-#:javascript
+  $('ul.room-messages .page').infiniteScroll
+      navSelector: "nav.pagination",
+      nextSelector: "nav.pagination a[rel=next]",
+      itemSelector: "ul.room-messages div.message"
+  });

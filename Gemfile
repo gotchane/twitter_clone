@@ -72,6 +72,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # paginate
 gem 'will_paginate', '~> 3.1.0'
+gem 'kaminari'
 
 # file upload
 gem 'carrierwave', '~> 1.0'
@@ -87,3 +88,7 @@ gem 'dotenv-rails'
 
 # forms made easy for Rails
 gem 'simple_form'
+
+# jquery
+gem 'jquery-rails'
+gem 'jquery-turbolinks'
