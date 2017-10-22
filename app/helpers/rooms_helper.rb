@@ -5,22 +5,24 @@ module RoomsHelper
 
   def read_user_count(users, room, message)
     if message.user == current_user then
-      read_count = 0
-      users.each do |user|
-        latest_read_message_id = user.user_rooms
-                                     .find_by(room_id: room.id)
-                                     .latest_read_message_id
-        if user != current_user && !latest_read_message_id.nil? then
-          if message.id <= latest_read_message_id then
-            read_count += 1
+      unless users.count == 1 && users.first == current_user then
+        read_count = 0
+        users.each do |user|
+          latest_read_message_id = user.user_rooms
+                                       .find_by(room_id: room.id)
+                                       .latest_read_message_id
+          if user != current_user && !latest_read_message_id.nil? then
+            if message.id <= latest_read_message_id then
+              read_count += 1
+            end
           end
         end
-      end
-      if read_count == 0 then
-        "Unread"
-      else
-        "Read:#{read_count}"
-      end
+        if read_count == 0 then
+          "Unread"
+        else
+          "Read:#{read_count}"
+        end
+     end
     end
   end
 
