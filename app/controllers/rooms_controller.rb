@@ -1,11 +1,11 @@
 class RoomsController < ApplicationController
   def index
-    @rooms = current_user.rooms
+    @rooms = current_user.rooms.sort_by_message_created
   end
 
   def show
     @room = current_user.rooms.find(params[:id])
-    @messages = @room.messages
+    @messages = @room.messages.order(id: "ASC")
     @message_post = current_user.messages.new
   end
 

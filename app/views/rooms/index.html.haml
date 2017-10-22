@@ -14,6 +14,6 @@
             - room.users.each_with_index do |user, i|
               = room_participants(user,i)
           %span.rooms__item__box__msg
-            = room.messages.last.body unless room.messages.empty?
+            = room.messages.first.body unless room.messages.empty?
 
 = link_to 'Back to previous page', :back
