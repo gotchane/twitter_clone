@@ -6,7 +6,7 @@
 %ul.rooms
   - @rooms.each do |room|
     = link_to user_room_path(current_user,room) do
-      %li.rooms__item
+      %li{class: "rooms__item rooms__item#{read_state(room)}"}
         .rooms__item__avater
           = image_tag avater_url(room.users.first), class: 'rooms-avater'
         .rooms__item__box

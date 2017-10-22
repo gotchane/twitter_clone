@@ -43,7 +43,7 @@ class RoomsController < ApplicationController
 
     def check_dup_room?(user_room_params)
       check_flag = false
-      current_user.rooms.each do |room|
+      current_user.rooms.check_available.each do |room|
         match_array = user_room_params.map(&:to_i)
         match_array << current_user.id unless match_array.include?(current_user.id)
         if match_array.sort == room.users.ids.sort then

@@ -28,8 +28,13 @@
 .rooms__item {
   padding: 10px 0;
   overflow: auto;
-  border-top: 1px solid #e8e8e8;
+  border-top: 1px solid #c4c3c3;
 }
+
+.rooms__item--unread {
+  background-color: #effbff;
+}
+
 
 .rooms__item__avater {
   float:left;
