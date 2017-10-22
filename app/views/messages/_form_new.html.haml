@@ -1,0 +1,4 @@
+= simple_form_for([user,room,message], html: { novalidate: true }) do |f|
+  = render 'partials/error_messages', object: f.object
+  = f.input :body, placeholder:'Write new message...', as: :text
+  = f.button :submit, 'Post', class: 'btn btn-primary'

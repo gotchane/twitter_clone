@@ -1,1 +1,15 @@
 %h1 Messages
+
+%ul.room-messages
+  - @messages.each do |message|
+    %li.room-messages__item
+      .room-messages__item__avater
+        -#= image_tag avater_url(message.user), class: 'rooms-avater'
+      .room-messages__item__box
+        %span.room-messages__item__box__user
+          = message.user.name unless message == nil
+        %span.room-messages__item__box__msg
+          = message.body unless message == nil
+
+%section.message_form
+  = render 'messages/form_new', {user: current_user, room: @room, message: @message_post}

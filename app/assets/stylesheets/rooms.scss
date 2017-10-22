@@ -68,22 +68,36 @@
   padding: 0;
 }
 
+.room-messages {
+  list-style: none;
+  overflow: auto;
+  padding: 0;
+  height: 400px;
+}
 
-//.room-form-list {
-//  list-style: none;
-//  padding: 0;
-//}
-//
-//.room-form-list__item {
-//  padding: 10px 0;
-//  overflow: auto;
-//  border-top: 1px solid #e8e8e8;
-//}
-//
-//.room-form-list__item__box {
-//  overflow: hidden;
-//}
-//
-//.room-form-list__item__box__checkbox {
-//}
+.room-messages__item {
+  padding: 10px 0;
+  overflow: auto;
+  border-top: 1px solid #e8e8e8;
+}
+
+.room-messages__item__avater {
+  float:left;
+}
+
+.room-messages__item__box {
+  overflow: hidden;
+}
+
+.room-messages__item__box__user {
+  margin-top: 5em;
+  font-weight: bold;
+  padding-top: 0;
+}
+
+.room-messages__item__box__msg {
+  display: block;
+  color: #b7b7b7;
+}
+
 

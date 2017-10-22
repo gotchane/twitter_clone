@@ -4,12 +4,15 @@ class RoomsController < ApplicationController
   end
 
   def show
+    @room = current_user.rooms.find(params[:id])
+    @messages = @room.messages
+    @message_post = current_user.messages.new
   end
 
   def new
     @users = User.all
     @room = current_user.rooms.new
-    @user_rooms = current_user.rooms.new
+    @user_rooms = @room.user_rooms.new
   end
 
   def create
@@ -26,6 +29,6 @@ class RoomsController < ApplicationController
 
   private
     def user_room_params
-      params[:room].require(:room).permit(user_ids: [])[:user_ids]
+      params[:room].require(:user_room).permit(user_id: [])[:user_id]
     end
 end
