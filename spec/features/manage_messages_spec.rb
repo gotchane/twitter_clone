@@ -13,7 +13,7 @@ RSpec.feature 'Manage messages', type: :feature do
       visit root_path
       click_link "Message"
       visit user_room_path(bob,bob.rooms.first)
-      expect(page).to have_selector "h1", text: "Messages"
+      expect(page).to have_selector "h1", text: "Messages of Bob / Alice"
       expect(page).to have_css(".room-messages__item__avater")
       expect(page).to have_selector ".room-messages__item__box__user", text: "Bob"
       expect(page).to have_selector ".room-messages__item__box__user", text: "Alice"

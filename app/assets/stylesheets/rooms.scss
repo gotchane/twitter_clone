@@ -72,7 +72,7 @@
   list-style: none;
   overflow: auto;
   padding: 0;
-  height: 400px;
+  height: 350px;
 }
 
 .room-messages__item {
@@ -91,13 +91,23 @@
 
 .room-messages__item__box__user {
   margin-top: 5em;
-  font-weight: bold;
   padding-top: 0;
+  font-weight: bold;
 }
 
 .room-messages__item__box__msg {
   display: block;
-  color: #b7b7b7;
+  margin: 10px 0;
+  font-size: 16px;
 }
 
+.room-messages__item__box__timestamp {
+  font-size: 12px;
+  color: #949494;
+  font-weight: normal;
+}
 
+.room-messages__item__box__delete {
+  font-size: 12px;
+  font-weight: normal;
+}

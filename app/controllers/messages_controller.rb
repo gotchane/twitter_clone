@@ -19,6 +19,9 @@ class MessagesController < ApplicationController
   end
 
   def destroy
+    @message = current_user.messages.find_by(id: params[:id])
+    @message.destroy
+    redirect_to request.referrer, success: "Message deleted successfully!"
   end
 
   private
