@@ -5,7 +5,9 @@
 .user-avater {
   float: left;
   width: 75px;
+  height: 75px;
   margin: 0 10px;
+  object-fit: cover;
 }
 
 .users {
