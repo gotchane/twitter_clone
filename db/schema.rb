@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20171015005723) do
   create_table "user_rooms", force: :cascade do |t|
     t.integer "user_id"
     t.integer "room_id"
-    t.integer "latest_read_message_id"
+    t.integer "latest_read_message_id", default: 0
     t.datetime "last_history_deleted"
     t.boolean "available_flag", default: true
     t.datetime "created_at", null: false

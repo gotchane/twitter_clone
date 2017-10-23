@@ -9,7 +9,7 @@ module RoomsHelper
         read_count = 0
         users.each do |user|
           latest_read_message_id = user.user_rooms
-                                       .find_by(room_id: room.id)
+                                       .find_by(room: room)
                                        .latest_read_message_id
           if user != current_user && !latest_read_message_id.nil? then
             if message.id <= latest_read_message_id then
@@ -28,7 +28,7 @@ module RoomsHelper
 
   def read_state(room)
     latest_read_message_id = current_user.user_rooms
-                                         .find_by(room_id: room.id)
+                                         .find_by(room: room)
                                          .latest_read_message_id
     room_latest_message_id = room.messages.order(id: "DESC")
                                           .first.id

@@ -5,4 +5,7 @@ class Message < ApplicationRecord
   belongs_to :room
   belongs_to :user
 
+  scope :after_history_deletion, -> (datetime) do
+    where("messages.created_at > ?", datetime)
+  end
 end
