@@ -75,14 +75,16 @@
 
 .room-messages {
   list-style: none;
-  overflow: auto;
   padding: 0;
-  height: 350px;
+}
+
+.room-messages__page {
+  overflow: auto;
+  height: 250px;
 }
 
 .room-messages__item {
   padding: 10px 0;
-  overflow: auto;
   border-top: 1px solid #e8e8e8;
 }
 

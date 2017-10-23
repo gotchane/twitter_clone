@@ -6,20 +6,18 @@
 = link_to 'Delete messages history', [current_user,@room], method: :delete, data: { confirm: 'Are you sure?' }, class: 'room-messages__delete'
 
 %ul.room-messages
-  .page
+  = paginate @messages
+  .room-messages__page
     = render 'message'
 
 %section.message_form
   = render 'messages/form_new', {user: current_user, room: @room, message: @message_post}
 
-.message-paginate
-  = paginate @messages
-
-
--#= javascript_include_tag 'infinite-scroll.pkgd.min'
--#:javascript
-  $('ul.room-messages .page').infiniteScroll
-      navSelector: "nav.pagination",
-      nextSelector: "nav.pagination a[rel=next]",
-      itemSelector: "ul.room-messages div.message"
-  });
+= javascript_include_tag 'infinite-scroll.pkgd.min'
+:javascript
+  $('.room-messages__page').animate({scrollTop: $('.room-messages__page')[0].scrollHeight}, 0 );
+  //$('.room-messages__page').infiniteScroll({
+  //  path : "nav.pagination a[rel=next]",
+  //  append: ".message"
+  //  hideNav: ".room-messages__page nav.pagination"
+  //});

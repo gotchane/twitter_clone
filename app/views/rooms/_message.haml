@@ -1,5 +1,5 @@
 .message
-  - @messages.each do |message|
+  - @messages.reverse.each do |message|
     %li.room-messages__item
       .room-messages__item__avater
         = image_tag avater_url(message.user), class: 'rooms-avater'
