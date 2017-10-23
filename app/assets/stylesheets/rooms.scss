@@ -4,8 +4,10 @@
 
 .rooms-avater {
   width: 50px;
+  height: 50px;
   float: left;
-  margin: 0 10px;
+  margin: 5px;
+  object-fit: cover;
 }
 
 .rooms-button {
@@ -38,6 +40,7 @@
 
 .rooms__item__avater {
   float:left;
+  width: 125px;
 }
 
 .rooms__item__box {
