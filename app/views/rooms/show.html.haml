@@ -7,7 +7,7 @@
 
 %ul.room-messages
   .room-messages__page
-    = render 'message'
+    = render 'rooms/message'
 
 %section.message_form
   = render 'messages/form_new', {user: current_user, room: @room, message: @message_post}
@@ -22,7 +22,7 @@
   $('.message li:last-child').on('inview', function() {
     $.ajax({
       type: 'get',
-      url: '#{url_for(action: :mark_read)}',
+      url: '#{url_for(controller: :rooms , action: :mark_read)}',
       cache: false,
       dataType: 'json'
     });
