@@ -36,4 +36,9 @@ module RoomsHelper
       "--unread" if room_latest_message_id > latest_read_message_id
     end
   end
+
+  def last_read_msg_id(room)
+    msg_id = room.user_rooms.find_by(user: current_user).latest_read_message_id
+    msg_id == 0 ? room.messages.order(id: "ASC").first : msg_id
+  end
 end

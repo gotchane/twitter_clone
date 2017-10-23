@@ -6,8 +6,30 @@ class RoomsController < ApplicationController
   def show
     @room = current_user.rooms.check_available.find(params[:id])
     @user_room = @room.user_rooms.find_by(user: current_user)
+    #@messages = @room.messages.after_history_deletion(@user_room.datetime_last_history_deleted).order(created_at: "DESC").page(params[:page])
     @messages = @room.messages.after_history_deletion(@user_room.datetime_last_history_deleted)
-                              .order(created_at: "DESC").page(params[:page])
+                              .order(created_at: "DESC")
+    @message_post = current_user.messages.new
+    UserRoom.update_latest_read_message(@room,current_user)
+  end
+
+  def new
+    @users = User.all
+    @room = current_user.rooms.new
+    @user_rooms = @room.user_rooms.new
+  end
+
+  def create
+    if check_dup_room?(user_room_params) then
+      redirect_to new_user_room_path(current_user), danger: "Participant combination is overlapped."
+      return
+    else
+      @room = current_user.rooms.build(create_user_id: current_user.id)
+      current_user.save!
+      user_room_params.each do |param|
+        @room.user_rooms.create(user_id: param)
+      end
+    end
     @message_post = current_user.messages.new
     UserRoom.update_latest_read_message(@room,current_user)
   end
