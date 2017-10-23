@@ -9,6 +9,7 @@
       %li{class: "rooms__item rooms__item#{read_state(room)}"}
         .rooms__item__avater
           = image_tag avater_url(room.users.first), class: 'rooms-avater'
+          = image_tag avater_url(room.users.second), class: 'rooms-avater'
         .rooms__item__box
           %span.rooms__item__box__user
             - room.users.each_with_index do |user, i|
