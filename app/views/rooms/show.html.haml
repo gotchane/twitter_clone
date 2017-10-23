@@ -9,8 +9,6 @@
   .room-messages__page
     = render 'message'
 
-= link_to 'Mark read', [:mark_read, current_user, @room], method: :post
-
 %section.message_form
   = render 'messages/form_new', {user: current_user, room: @room, message: @message_post}
 
@@ -20,3 +18,12 @@
   var latestMsg = $('.message li:last-child')
   var jumpPos =  page[0].scrollHeight - latestMsg.outerHeight() - latestMsg.position().top - lastReadMsg.outerHeight() + lastReadMsg.position().top
   page.animate({scrollTop: jumpPos}, 0 );
+
+  $('.message li:last-child').on('inview', function() {
+    $.ajax({
+      type: 'get',
+      url: '#{url_for(action: :mark_read)}',
+      cache: false,
+      dataType: 'json'
+    });
+  });

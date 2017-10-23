@@ -16,5 +16,5 @@
 //= require jquery.turbolinks
 //= require bootstrap-sprockets
 //= require bootstrap
-//= require infinite-scroll.pkgd.min
+//= require jquery.inview.min
 //= require_tree .
