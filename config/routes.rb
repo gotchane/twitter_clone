@@ -13,6 +13,9 @@ Rails.application.routes.draw do
     resources :tweets,  only: [:create, :destroy]
     resources :rooms,  only: [:index, :show, :new, :create, :destroy] do
       resources :messages,  only: [:new, :create, :destroy]
+      member do
+        post :mark_read
+      end
     end
   end
 end

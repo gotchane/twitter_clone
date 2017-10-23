@@ -10,6 +10,7 @@ class MessagesController < ApplicationController
     @message.room_id = @room.id
     if @message.save
       @room.reactivate_participant if @room.unavailable_participant?
+      UserRoom.update_latest_read_message(@room,current_user)
       redirect_to user_room_path(current_user,@room), success: "Post message succeeded!"
     else
       @message_post = @message

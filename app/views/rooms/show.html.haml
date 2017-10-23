@@ -6,25 +6,17 @@
 = link_to 'Delete messages history', [current_user,@room], method: :delete, data: { confirm: 'Are you sure?' }, class: 'room-messages__delete'
 
 %ul.room-messages
-  -#= paginate @messages
   .room-messages__page
     = render 'message'
+
+= link_to 'Mark read', [:mark_read, current_user, @room], method: :post
 
 %section.message_form
   = render 'messages/form_new', {user: current_user, room: @room, message: @message_post}
 
-= javascript_include_tag 'infinite-scroll.pkgd.min'
 :javascript
-  //$('.room-messages__page').animate({scrollTop: $(".room-messages__item--319").position().top}, 0 );
   var page = $('.room-messages__page')
   var lastReadMsg = $('.room-messages__item--#{last_read_msg_id(@room)}')
   var latestMsg = $('.message li:last-child')
   var jumpPos =  page[0].scrollHeight - latestMsg.outerHeight() - latestMsg.position().top - lastReadMsg.outerHeight() + lastReadMsg.position().top
   page.animate({scrollTop: jumpPos}, 0 );
-
-  //$('.room-messages__page').animate({scrollTop: $('.room-messages__page')[0].scrollHeight}, 0 );
-  //$('.room-messages__page').infiniteScroll({
-  //  path : "nav.pagination a[rel=next]",
-  //  append: ".message"
-  //  hideNav: ".room-messages__page nav.pagination"
-  //});
