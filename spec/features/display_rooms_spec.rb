@@ -21,12 +21,11 @@ RSpec.feature 'Display rooms', type: :feature do
       expect(page).to have_selector "h1", text: "Direct Messages"
       expect(page).to have_selector ".rooms-button", text: "Create Message"
       expect(page).to have_css(".rooms__item__avater")
-      expect(page).to have_selector ".rooms__item__box__user", text: "Bob, Alice,"
+      expect(page).to have_selector ".rooms__item__box__user", text: "Bob / Alice"
       expect(page).to have_selector ".rooms__item__box__msg", text: "1st_alice"
-      expect(page).to have_selector ".rooms__item__box__user", text: "Bob, Alice, Carol,"
+      expect(page).to have_selector ".rooms__item__box__user", text: "Bob / Alice / Carol"
       expect(page).to have_selector ".rooms__item__box__msg", text: "2nd_carol"
     end
-    scenario "change background color of rooms with unread"
   end
 
   context "as not logged in user" do

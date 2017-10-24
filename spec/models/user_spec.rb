@@ -20,6 +20,7 @@ RSpec.describe User, type: :model do
   end
   describe 'follow and unfollow' do
     it "can follow and unfollow" do
+      user = FactoryGirl.build(:user)
       followed_user = user
       followed_user.email = 'followed@example.com'
       user.save!

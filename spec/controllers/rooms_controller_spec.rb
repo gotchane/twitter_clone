@@ -31,7 +31,7 @@ RSpec.describe RoomsController, type: :controller do
         post :create,
         params: {
           user_id: user.id,
-          room: {room: {user_ids: [invitee.id] }}
+          room: {user_room: {user_id: [invitee.id] }}
         }
       }.to change(Room, :count).by(1)
     end
@@ -40,7 +40,7 @@ RSpec.describe RoomsController, type: :controller do
         post :create,
         params: {
           user_id: user.id,
-          room: {room: {user_ids: [invitee.id] }}
+          room: {user_room: {user_id: [invitee.id] }}
         }
       }.to change(UserRoom, :count).by(2)
     end
@@ -48,7 +48,7 @@ RSpec.describe RoomsController, type: :controller do
       post :create,
       params: {
         user_id: user.id,
-        room: {room: {user_ids: [invitee.id] }}
+        room: {user_room: {user_id: [invitee.id] }}
       }
       expect(response).to redirect_to user_room_path(user, Room.find_by(create_user_id: user.id))
     end
