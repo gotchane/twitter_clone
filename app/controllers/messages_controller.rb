@@ -16,7 +16,7 @@ class MessagesController < ApplicationController
       @message_post = @message
       @user = current_user
       @messages = @room.messages
-      render 'rooms/show'
+      render template: 'rooms/show'
     end
   end
 

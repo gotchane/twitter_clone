@@ -41,4 +41,9 @@ module RoomsHelper
     msg_id = room.user_rooms.find_by(user: current_user).latest_read_message_id
     msg_id == 0 ? room.messages.order(id: "ASC").first : msg_id
   end
+
+  def mark_read_url(room)
+    "/users/#{current_user.id}/rooms/#{room.id}/mark_read"
+  end
+
 end
