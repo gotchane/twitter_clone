@@ -32,7 +32,7 @@ module RoomsHelper
                                          .latest_read_message_id
     room_latest_message_id = room.messages.order(id: "DESC")
                                           .first.id
-    unless room.messages.count == 0 || latest_read_message_id.nil? || room_latest_message_id.nil? then
+    if room.messages.count != 0 && !latest_read_message_id.nil? && !room_latest_message_id.nil? then
       "--unread" if room_latest_message_id > latest_read_message_id
     end
   end
