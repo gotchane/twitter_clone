@@ -34,7 +34,6 @@ class RoomsController < ApplicationController
   def mark_read
     @room = current_user.rooms.check_available.find(params[:id])
     UserRoom.update_latest_read_message(@room,current_user)
-    #redirect_to user_room_path(current_user,@room)
     render json: {status: "OK", code: 200}
   end
 
