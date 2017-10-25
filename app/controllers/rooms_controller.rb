@@ -18,9 +18,10 @@ class RoomsController < ApplicationController
   end
 
   def create
-    if check_dup_room?(user_room_params) then
+    if user_room_params.nil? then
+      redirect_to new_user_room_path(current_user), danger: "Please select at least one user."
+    elsif check_dup_room?(user_room_params) then
       redirect_to new_user_room_path(current_user), danger: "Participant combination is overlapped."
-      return
     else
       @room = current_user.rooms.build(create_user_id: current_user.id)
       current_user.save!
@@ -45,7 +46,7 @@ class RoomsController < ApplicationController
 
   private
     def user_room_params
-      params[:room].require(:user_room).permit(user_id: [])[:user_id]
+      params[:room].require(:user_room).permit(user_id: [])[:user_id] unless params[:room].nil?
     end
 
     def check_dup_room?(user_room_params)
