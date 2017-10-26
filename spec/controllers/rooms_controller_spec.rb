@@ -10,6 +10,12 @@ RSpec.describe RoomsController, type: :controller do
       get :index, params: { user_id: user.id }
       expect(assigns(:rooms)).to match_array(user.rooms)
     end
+    it "populates an array of rooms without unavailable" do
+      user.rooms << create_list(:room, 2, create_user_id: user.id)
+      user.rooms.first.user_rooms.first.available_flag = false
+      get :index, params: { user_id: user.id }
+      expect(assigns(:rooms).count).to eq(2)
+    end
     it "renders the :index template" do
       get :index, params: { user_id: user.id }
       expect(response).to render_template :index
@@ -97,5 +103,9 @@ RSpec.describe RoomsController, type: :controller do
       get :show, params: { user_id: user.id, id: user.rooms.first.id }
       expect(response).to render_template :show
     end
+  end
+  describe 'GET #mark_read' do
+  end
+  describe 'DELETE #destroy' do
   end
 end
