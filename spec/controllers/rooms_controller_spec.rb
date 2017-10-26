@@ -62,6 +62,13 @@ RSpec.describe RoomsController, type: :controller do
       }
       expect(response).to redirect_to new_user_room_path(user)
     end
+    it "redirect to the :new template when user_room_params is nil" do
+      post :create,
+      params: {
+        user_id: user.id
+      }
+      expect(response).to redirect_to new_user_room_path(user)
+    end
   end
   describe 'GET #show' do
     it "populates a room of current user" do
@@ -70,8 +77,15 @@ RSpec.describe RoomsController, type: :controller do
       expect(assigns(:room)).to eq(user.rooms.first)
     end
     it "populates relations between users and a room" do
+      user.rooms << create(:room, create_user_id: user.id)
+      get :show, params: { user_id: user.id, id: user.rooms.first.id }
+      expect(assigns(:user_room)).to eq(user.rooms.first.user_rooms.first)
     end
     it "populates messages of room" do
+      user.rooms << create(:room, create_user_id: user.id)
+      msg = create(:message, room: user.rooms.first, user: user, body:"test")
+      get :show, params: { user_id: user.id, id: user.rooms.first.id }
+      expect(assigns(:messages)).to match_array([msg])
     end
     it "assigns new Room to @room" do
       user.rooms << create(:room, create_user_id: user.id)
