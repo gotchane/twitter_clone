@@ -105,6 +105,23 @@ RSpec.describe RoomsController, type: :controller do
     end
   end
   describe 'GET #mark_read' do
+    it "populates a room of current user" do
+      user.rooms << create(:room, create_user_id: user.id)
+      get :show, params: { user_id: user.id, id: user.rooms.first.id }
+      expect(assigns(:room)).to eq(user.rooms.first)
+    end
+    it "populates a room of current user" do
+      user.rooms << create(:room, create_user_id: user.id)
+      user_room = UserRoom.where("user_id = ? and room_id = ?", user.id, user.rooms.first.id)
+      user.rooms.first.messages << create_list(:message, 2, room: user.rooms.first, user: user, body:"test")
+      get :mark_read, params: { user_id: user.id, id: user.rooms.first.id }
+      expect(user_room.first.latest_read_message_id).to eq(user.rooms.first.messages.last.id)
+    end
+    it "renders json" do
+      user.rooms << create(:room, create_user_id: user.id)
+      get :mark_read, params: { user_id: user.id, id: user.rooms.first.id }
+      expect(response.status).to eq(200)
+    end
   end
   describe 'DELETE #destroy' do
   end
