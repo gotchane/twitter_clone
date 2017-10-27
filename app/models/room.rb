@@ -6,11 +6,10 @@ class Room < ApplicationRecord
 
   scope :sort_by_message_created, -> do
     includes(:messages).order("messages.created_at desc")
-
   end
 
   scope :check_available, -> do
-    includes(:user_rooms).where("user_rooms.available_flag = ?", true)
+    includes(:user_rooms).where(user_rooms:{available_flag: true})
   end
 
   def delete_messages_history(user)
@@ -22,7 +21,7 @@ class Room < ApplicationRecord
   end
 
   def unavailable_participant?
-    count = self.user_rooms.where("user_rooms.available_flag = ?", false).count
+    count = self.user_rooms.where(user_rooms:{available_flag: false}).count
     count != 0 ? true : false
   end
 
