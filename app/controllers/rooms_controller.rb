@@ -34,7 +34,9 @@ class RoomsController < ApplicationController
 
   def mark_read
     @room = current_user.rooms.check_available.find(params[:id])
-    UserRoom.update_latest_read_message(@room,current_user)
+    @user_room = @room.user_rooms.find_by(user: current_user)
+    @message = @room.messages.order(created_at: :desc).first
+    @user_room.mark_last_read_message(@message)
     render json: {status: "OK", code: 200}
   end
 

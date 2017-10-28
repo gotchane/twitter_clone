@@ -8,9 +8,10 @@ class MessagesController < ApplicationController
   def create
     @message = current_user.messages.build(message_params)
     @message.room_id = @room.id
+    @user_room = @room.user_rooms.find_by(user: current_user)
     if @message.save
       @room.reactivate_participant if @room.unavailable_participant?
-      UserRoom.update_latest_read_message(@room,current_user)
+      @user_room.mark_last_read_message(@message)
       redirect_to user_room_path(current_user,@room), success: "Post message succeeded!"
     else
       @message_post = @message
