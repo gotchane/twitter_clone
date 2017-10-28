@@ -27,9 +27,9 @@ RSpec.describe UserRoom, type: :model do
       end.to raise_error( ActiveRecord::RecordInvalid )
     end
     it "is invalid when room_id is blank" do
-      user_room.room_id = nil
+      user_room.room = nil
       user_room.valid?
-      expect(user_room.errors[:room_id]).to include("can't be blank")
+      expect(user_room.errors[:room]).to include("can't be blank")
     end
     it "is invalid when room model is not existed" do
       expect do
@@ -40,7 +40,7 @@ RSpec.describe UserRoom, type: :model do
     it "is invalid when combo of user_id and room_id is not unique" do
       user_room.save!
       user_room.dup.valid?
-      is_expected.to validate_uniqueness_of(:room_id).scoped_to(:user_id)
+      is_expected.to validate_uniqueness_of(:room).scoped_to(:user_id)
     end
   end
 end
