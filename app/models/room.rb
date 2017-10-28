@@ -8,24 +8,16 @@ class Room < ApplicationRecord
     includes(:messages).order("messages.created_at desc")
   end
 
-  scope :check_available, -> do
-    joins(:user_rooms).where(user_rooms:{available_flag: true})
+  scope :check_available, -> (state) do
+    joins(:user_rooms).where(user_rooms:{available_flag: state})
   end
 
-#  def delete_messages_history(user)
-#    self.user_rooms.find_by(user: user)
-#                   .update_attributes(
-#                     available_flag: false,
-#                     last_history_deleted: DateTime.now
-#                    )
-#  end
-
   def unavailable_participant?
-    count = self.user_rooms.where(user_rooms:{available_flag: false}).count
+    count = user_rooms.where(user_rooms:{available_flag: false}).count
     count != 0 ? true : false
   end
 
   def reactivate_participant
-    self.user_rooms.update_all(available_flag: true)
+    user_rooms.update_all(available_flag: true)
   end
 end

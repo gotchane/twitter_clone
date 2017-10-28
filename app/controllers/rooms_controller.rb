@@ -3,7 +3,7 @@ class RoomsController < ApplicationController
   before_action :set_user_room, only:[:show, :destroy, :mark_read]
 
   def index
-    @rooms = current_user.rooms.check_available.sort_by_message_created
+    @rooms = current_user.rooms.check_available(true).sort_by_message_created
   end
 
   def show
@@ -46,7 +46,7 @@ class RoomsController < ApplicationController
 
   private
     def set_room
-      @room = current_user.rooms.check_available.find(params[:id])
+      @room = current_user.rooms.check_available(true).find(params[:id])
     end
 
     def set_user_room
@@ -59,7 +59,7 @@ class RoomsController < ApplicationController
 
     def check_dup_room?(user_room_params)
       check_flag = false
-      current_user.rooms.check_available.each do |room|
+      current_user.rooms.check_available(true).each do |room|
         match_array = user_room_params.map(&:to_i)
         match_array << current_user.id unless match_array.include?(current_user.id)
         if match_array.sort == room.users.ids.sort

@@ -13,6 +13,6 @@ class UserRoom < ApplicationRecord
   end
 
   def datetime_last_history_deleted
-    self.last_history_deleted.nil? ? self.created_at : self.last_history_deleted
+    last_history_deleted.nil? ? created_at : last_history_deleted
   end
 end
