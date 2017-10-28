@@ -18,9 +18,9 @@ class RoomsController < ApplicationController
   end
 
   def create
-    if user_room_params.nil? then
+    if user_room_params.nil?
       redirect_to new_user_room_path(current_user), danger: "Please select at least one user."
-    elsif check_dup_room?(user_room_params) then
+    elsif check_dup_room?(user_room_params)
       redirect_to new_user_room_path(current_user), danger: "Participant combination is overlapped."
     else
       @room = current_user.rooms.build(create_user_id: current_user.id)
@@ -54,7 +54,7 @@ class RoomsController < ApplicationController
       current_user.rooms.check_available.each do |room|
         match_array = user_room_params.map(&:to_i)
         match_array << current_user.id unless match_array.include?(current_user.id)
-        if match_array.sort == room.users.ids.sort then
+        if match_array.sort == room.users.ids.sort
           check_flag = true
         end
       end
