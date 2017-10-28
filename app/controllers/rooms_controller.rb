@@ -1,6 +1,6 @@
 class RoomsController < ApplicationController
   before_action :set_room, only:[:show, :destroy, :mark_read]
-  before_action :set_user_room, only:[:show, :mark_read]
+  before_action :set_user_room, only:[:show, :destroy, :mark_read]
 
   def index
     @rooms = current_user.rooms.check_available.sort_by_message_created
@@ -40,7 +40,7 @@ class RoomsController < ApplicationController
   end
 
   def destroy
-    @room.delete_messages_history(current_user)
+    @user_room.delete_messages_history
     redirect_to user_rooms_path(current_user), success: "Messages history deleted successfully!"
   end
 

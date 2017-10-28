@@ -8,6 +8,10 @@ class UserRoom < ApplicationRecord
     update_attributes(latest_read_message_id: message.id)
   end
 
+  def delete_messages_history
+    update_attributes(available_flag: false, last_history_deleted: DateTime.now)
+  end
+
   def datetime_last_history_deleted
     self.last_history_deleted.nil? ? self.created_at : self.last_history_deleted
   end

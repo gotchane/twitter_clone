@@ -12,13 +12,13 @@ class Room < ApplicationRecord
     joins(:user_rooms).where(user_rooms:{available_flag: true})
   end
 
-  def delete_messages_history(user)
-    self.user_rooms.find_by(user: user)
-                   .update_attributes(
-                     available_flag: false,
-                     last_history_deleted: DateTime.now
-                    )
-  end
+#  def delete_messages_history(user)
+#    self.user_rooms.find_by(user: user)
+#                   .update_attributes(
+#                     available_flag: false,
+#                     last_history_deleted: DateTime.now
+#                    )
+#  end
 
   def unavailable_participant?
     count = self.user_rooms.where(user_rooms:{available_flag: false}).count
