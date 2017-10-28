@@ -1,6 +1,6 @@
 module RoomsHelper
-  def room_participants(user, i)
-    i == 0 ? user.name : "/ " + user.name
+  def room_participants(users)
+    users.map(&:name).join(" / ")
   end
 
   def read_user_count(users, room, message)
