@@ -19,11 +19,11 @@
   var markReadUrl = $('.mark_read_url').val();
   var lastReadMsgId = $('.last_read_msg_id').val();
   var lastReadMsg = $(".room-messages__item--" + lastReadMsgId);
-  var latestMsg = $('.message li:last-child')
+  var latestMsg = $('.room-messages__page li:last-child')
   var jumpPos =  page[0].scrollHeight - latestMsg.outerHeight() - latestMsg.position().top - lastReadMsg.outerHeight() + lastReadMsg.position().top
   page.animate({scrollTop: jumpPos}, 0 );
 
-  $('.message li:last-child').on('inview', function() {
+  $('.room-messages__page li:last-child').on('inview', function() {
     $.ajax({
       type: 'get',
       url: markReadUrl,
