@@ -2,12 +2,12 @@ class MessagesController < ApplicationController
   before_action :set_room
 
   def new
-    @message = current_user.messages.new(room_id: @room.id)
+    @message = @room.messages.new(user: current_user)
   end
 
   def create
-    @message = current_user.messages.build(message_params)
-    @message.room_id = @room.id
+    @message = @room.messages.build(message_params)
+    @message.user = current_user
     @user_room = @room.user_rooms.find_by(user: current_user)
     if @message.save
       @room.reactivate_participant if @room.unavailable_participant?
@@ -22,7 +22,7 @@ class MessagesController < ApplicationController
   end
 
   def destroy
-    @message = current_user.messages.find_by(id: params[:id])
+    @message = @room.messages.find_by(id: params[:id], user: current_user)
     @message.destroy
     redirect_to request.referrer, success: "Message deleted successfully!"
   end
