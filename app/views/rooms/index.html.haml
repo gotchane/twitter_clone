@@ -1,7 +1,7 @@
 %h1 Direct Messages
 
 .rooms-button
-  = link_to 'Create Message', new_user_room_path(current_user), class: 'btn btn-primary'
+  = link_to 'Create Message Room', new_user_room_path(current_user), class: 'btn btn-primary'
 
 %ul.rooms
   - @rooms.each do |room|
