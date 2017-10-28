@@ -37,7 +37,10 @@ RSpec.describe RoomsController, type: :controller do
         post :create,
         params: {
           user_id: user.id,
-          room: {user_room: {user_id: [invitee.id] }}
+          room: {
+            create_user_id: user.id,
+            user_ids: [invitee.id]
+          }
         }
       }.to change(Room, :count).by(1)
     end
@@ -46,7 +49,10 @@ RSpec.describe RoomsController, type: :controller do
         post :create,
         params: {
           user_id: user.id,
-          room: {user_room: {user_id: [invitee.id] }}
+          room: {
+            create_user_id: user.id,
+            user_ids: [invitee.id]
+          }
         }
       }.to change(UserRoom, :count).by(2)
     end
@@ -54,7 +60,10 @@ RSpec.describe RoomsController, type: :controller do
       post :create,
       params: {
         user_id: user.id,
-        room: {user_room: {user_id: [invitee.id] }}
+        room: {
+          create_user_id: user.id,
+          user_ids: [invitee.id]
+        }
       }
       expect(response).to redirect_to user_room_path(user, Room.find_by(create_user_id: user.id))
     end
@@ -64,14 +73,20 @@ RSpec.describe RoomsController, type: :controller do
       post :create,
       params: {
         user_id: user.id,
-        room: {user_room: {user_id: [invitee.id] }}
+        room: {
+          create_user_id: user.id,
+          user_ids: [invitee.id]
+        }
       }
       expect(response).to redirect_to new_user_room_path(user)
     end
     it "redirect to the :new template when user_room_params is nil" do
       post :create,
       params: {
-        user_id: user.id
+        user_id: user.id,
+        room: {
+          create_user_id: user.id
+        }
       }
       expect(response).to redirect_to new_user_room_path(user)
     end

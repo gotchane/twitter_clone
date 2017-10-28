@@ -1,8 +1,9 @@
 class Room < ApplicationRecord
   validates :create_user_id, presence: true
   has_many :messages
-  has_many :user_rooms
+  has_many :user_rooms, inverse_of: :room
   has_many :users, through: :user_rooms
+  accepts_nested_attributes_for :user_rooms
 
   scope :sort_by_message_created, -> do
     includes(:messages).order("messages.created_at desc")

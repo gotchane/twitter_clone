@@ -1,8 +1,8 @@
 class UserRoom < ApplicationRecord
   belongs_to :user
-  belongs_to :room
+  belongs_to :room, inverse_of: :user_rooms
   validates :user_id, presence: true
-  validates :room_id, presence: true, uniqueness: { scope: :user_id }
+  validates :room, presence: true, uniqueness: { scope: :user_id }
 
   def mark_last_read_message(message)
     update_attributes(latest_read_message_id: message.id) unless message.nil?

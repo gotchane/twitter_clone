@@ -4,6 +4,6 @@
   = simple_form_for([current_user,@room]) do |f|
     = f.button :submit, "Next" ,class: 'btn btn-primary room-button'
     = render 'partials/error_messages', object: f.object
-    = f.fields_for @user_rooms do |user_room|
-      .room-form-list
-        = user_room.collection_check_boxes :user_id, @users, :id, :name, include_hidden: false
+    = f.hidden_field :create_user_id, value: current_user.id
+    .room-form-list
+      = f.collection_check_boxes :user_ids, @users, :id, :name, include_hidden: false
