@@ -5,7 +5,7 @@ class UserRoom < ApplicationRecord
   validates :room_id, presence: true, uniqueness: { scope: :user_id }
 
   def mark_last_read_message(message)
-    update_attributes(latest_read_message_id: message.id)
+    update_attributes(latest_read_message_id: message.id) unless message.nil?
   end
 
   def delete_messages_history
