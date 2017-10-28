@@ -7,7 +7,7 @@ class RoomsController < ApplicationController
     @room = current_user.rooms.check_available.find(params[:id])
     @user_room = @room.user_rooms.find_by(user: current_user)
     @messages = @room.messages.after_history_deletion(@user_room.datetime_last_history_deleted)
-                              .order(created_at: "DESC")
+                              .order(created_at: :desc)
     @message_post = current_user.messages.new
   end
 

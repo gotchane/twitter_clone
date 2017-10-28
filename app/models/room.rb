@@ -9,7 +9,7 @@ class Room < ApplicationRecord
   end
 
   scope :check_available, -> do
-    includes(:user_rooms).where(user_rooms:{available_flag: true})
+    joins(:user_rooms).where(user_rooms:{available_flag: true})
   end
 
   def delete_messages_history(user)
