@@ -1,11 +1,12 @@
 class RoomsController < ApplicationController
+  before_action :set_room, only:[:show, :destroy, :mark_read]
+  before_action :set_user_room, only:[:show, :mark_read]
+
   def index
     @rooms = current_user.rooms.check_available.sort_by_message_created
   end
 
   def show
-    @room = current_user.rooms.check_available.find(params[:id])
-    @user_room = @room.user_rooms.find_by(user: current_user)
     @messages = @room.messages.after_history_deletion(@user_room.datetime_last_history_deleted)
                               .order(created_at: :desc)
     @message_post = current_user.messages.new
@@ -33,20 +34,25 @@ class RoomsController < ApplicationController
   end
 
   def mark_read
-    @room = current_user.rooms.check_available.find(params[:id])
-    @user_room = @room.user_rooms.find_by(user: current_user)
     @message = @room.messages.order(created_at: :desc).first
     @user_room.mark_last_read_message(@message)
     render json: {status: "OK", code: 200}
   end
 
   def destroy
-    @room = current_user.rooms.check_available.find(params[:id])
     @room.delete_messages_history(current_user)
     redirect_to user_rooms_path(current_user), success: "Messages history deleted successfully!"
   end
 
   private
+    def set_room
+      @room = current_user.rooms.check_available.find(params[:id])
+    end
+
+    def set_user_room
+      @user_room = @room.user_rooms.find_by(user: current_user)
+    end
+
     def user_room_params
       params[:room].require(:user_room).permit(user_id: [])[:user_id] unless params[:room].nil?
     end
