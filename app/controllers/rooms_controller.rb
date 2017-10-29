@@ -1,6 +1,6 @@
 class RoomsController < ApplicationController
   before_action :set_room, only:[:show, :destroy, :mark_read]
-  before_action :set_user_room, only:[:show, :destroy, :mark_read]
+  before_action :set_user_room, only:[:show, :destroy]
 
   def index
     @rooms = current_user.rooms.check_available(true).sort_by_message_created
