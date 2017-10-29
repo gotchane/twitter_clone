@@ -21,7 +21,7 @@ class Room < ApplicationRecord
   end
 
   def reactivate_participant
-    user_rooms.update_all(available_flag: true)
+    user_rooms.update_all(available_flag: true) if unavailable_participant?
   end
 
   def check_empty_room?
