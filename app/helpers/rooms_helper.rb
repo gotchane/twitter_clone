@@ -3,26 +3,16 @@ module RoomsHelper
     users.map(&:name).join(" / ")
   end
 
-  def read_user_count(users, room, message)
+  def message_read_count(message)
     if message.user == current_user
-      unless users.count == 1 && users.first == current_user
-        read_count = 0
-        users.each do |user|
-          latest_read_message_id = user.user_rooms
-                                       .find_by(room: room)
-                                       .latest_read_message_id
-          if user != current_user && !latest_read_message_id.nil?
-            if message.id <= latest_read_message_id
-              read_count += 1
-            end
-          end
-        end
-        if read_count == 0
-          "Unread"
-        else
-          "Read:#{read_count}"
-        end
+      read_count = 0
+      latest_read_message_ids = message.room.user_rooms
+                                            .where.not(user_id: current_user.id)
+                                            .map(&:latest_read_message_id)
+      latest_read_message_ids.each do |latest_read_message_id|
+        read_count += 1 if message.id <= latest_read_message_id
       end
+      read_count == 0 ? "Unread" : "Read:#{read_count}"
     end
   end
 
