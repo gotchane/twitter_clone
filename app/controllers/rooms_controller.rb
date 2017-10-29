@@ -13,20 +13,19 @@ class RoomsController < ApplicationController
   end
 
   def new
-    @users = User.all
     @room = current_user.rooms.new
-    @user_rooms = @room.user_rooms.new
   end
 
   def create
     if !room_params.has_key?(:user_ids)
       redirect_to new_user_room_path(current_user), danger: "Please select at least one user."
-    elsif check_dup_room?(room_params)
-      redirect_to new_user_room_path(current_user), danger: "Participant combination is overlapped."
     else
       @room = current_user.rooms.build(room_params)
-      @room.save!
-      redirect_to user_room_path(current_user, @room)
+      if @room.save
+        redirect_to user_room_path(current_user, @room)
+      else
+        render 'new'
+      end
     end
   end
 
@@ -52,17 +51,5 @@ class RoomsController < ApplicationController
 
     def room_params
       params.require(:room).permit(:create_user_id, user_ids: [])
-    end
-
-    def check_dup_room?(room_params)
-      check_flag = false
-      current_user.rooms.check_available(true).each do |room|
-        match_array = room_params[:user_ids].map(&:to_i)
-        match_array << current_user.id unless match_array.include?(current_user.id)
-        if match_array.sort == room.users.ids.sort
-          check_flag = true
-        end
-      end
-      check_flag
     end
 end
