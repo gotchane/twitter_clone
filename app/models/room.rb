@@ -16,15 +16,6 @@ class Room < ApplicationRecord
     joins(:user_rooms).where(user_rooms:{available_flag: state})
   end
 
-  def unavailable_participant?
-    count = user_rooms.where(user_rooms:{available_flag: false}).count
-    count != 0 ? true : false
-  end
-
-  def reactivate_participant
-    user_rooms.update_all(available_flag: true) if unavailable_participant?
-  end
-
   def check_empty_room?
     match_array = user_rooms.map(&:user_id)
     match_array.delete(current_user.id)

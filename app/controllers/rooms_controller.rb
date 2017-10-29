@@ -28,7 +28,8 @@ class RoomsController < ApplicationController
 
   def mark_read
     @message = @room.messages.order(created_at: :desc).first
-    @user_room.mark_last_read_message(@message)
+    @message.current_user = current_user
+    @message.mark_last_read_message
     render json: {status: "OK", code: 200}
   end
 
