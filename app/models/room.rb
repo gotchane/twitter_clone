@@ -1,10 +1,11 @@
 class Room < ApplicationRecord
-  validates :create_user_id, presence: true
   has_many :messages
   has_many :user_rooms, inverse_of: :room
   has_many :users, through: :user_rooms
   accepts_nested_attributes_for :user_rooms
-  validate :check_dup_room?
+  validates :create_user_id, presence: true
+  validate :check_empty_room?, on: :create
+  validate :check_dup_room?, on: :create, if: :check_empty_room?
 
   scope :sort_by_message_created, -> do
     includes(:messages).order("messages.created_at desc")
@@ -21,6 +22,17 @@ class Room < ApplicationRecord
 
   def reactivate_participant
     user_rooms.update_all(available_flag: true)
+  end
+
+  def check_empty_room?
+    match_array = self.user_rooms.map(&:user_id)
+    match_array.delete(self.create_user_id)
+    if !match_array.empty?
+      true
+    else
+      self.errors[:base] << 'No one is selected as room participant.'
+      false
+    end
   end
 
   def check_dup_room?

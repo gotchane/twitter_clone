@@ -17,15 +17,11 @@ class RoomsController < ApplicationController
   end
 
   def create
-    if !room_params.has_key?(:user_ids)
-      redirect_to new_user_room_path(current_user), danger: "Please select at least one user."
+    @room = current_user.rooms.build(room_params)
+    if @room.save
+      redirect_to user_room_path(current_user, @room)
     else
-      @room = current_user.rooms.build(room_params)
-      if @room.save
-        redirect_to user_room_path(current_user, @room)
-      else
-        render 'new'
-      end
+      render 'new'
     end
   end
 
