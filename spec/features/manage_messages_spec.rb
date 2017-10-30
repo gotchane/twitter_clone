@@ -5,10 +5,13 @@ RSpec.feature 'Manage messages', type: :feature do
     scenario "show messages form" do
       bob = create(:user, name: "Bob")
       alice = create(:user, name: "Alice")
-      bob.rooms << create(:room, create_user_id: bob.id)
-      first_room_alice = create(:user_room, user: alice, room: bob.rooms.first)
-      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
-      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      room_first = create(:room, create_user_id: bob.id,
+                           current_user: bob,
+                           user_rooms_attributes:[{ user_id: bob.id },{ user_id: alice.id }] )
+      #bob.rooms << create(:room, create_user_id: bob.id)
+      #first_room_alice = create(:user_room, user: alice, current_user: alice,room: bob.rooms.first)
+      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, current_user: bob, body:"1st_bob")
+      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, current_user: alice, body:"1st_alice")
       login_as(bob)
       visit root_path
       click_link "Message"
@@ -23,10 +26,13 @@ RSpec.feature 'Manage messages', type: :feature do
   end
   context "as not logged in user" do
     scenario "redirect to login page" do
-      user = create(:user)
-      user.rooms << create(:room, create_user_id: user.id)
+      bob = create(:user, name: "Bob")
+      alice = create(:user, name: "Alice")
+      room_first = create(:room, create_user_id: bob.id,
+                           current_user: bob,
+                           user_rooms_attributes:[{ user_id: bob.id },{ user_id: alice.id }] )
       visit root_path
-      visit "/users/#{user.id}/rooms/#{user.rooms.first.id}"
+      visit "/users/#{bob.id}/rooms/#{bob.rooms.first.id}"
       expect(page).to have_content "Please log in."
     end
   end

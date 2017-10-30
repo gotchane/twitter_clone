@@ -1,9 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe UserRoom, type: :model do
-  let!(:user) { FactoryGirl.create(:user) }
-  let!(:room) { FactoryGirl.create(:room) }
-  let!(:user_room) { FactoryGirl.build(:user_room) }
+  let!(:user) { create(:user) }
+  let!(:alice) { create(:user) }
+  let!(:room) {
+    create(:room, create_user_id: user.id,
+             current_user: user,
+             user_rooms_attributes:[{ user_id: user.id },{ user_id: alice.id }])
+  }
+  let!(:user_room) { room.user_rooms.first }
   describe 'table association' do
     it { should belong_to(:room) }
     it { should belong_to(:user) }
@@ -11,7 +16,7 @@ RSpec.describe UserRoom, type: :model do
   describe 'valid user_room model' do
     it "is valid" do
       user_room.save!
-      expect(user_room).to be_valid
+      expect(room.user_rooms.first).to be_valid
     end
   end
   describe 'invalid user_room model' do
@@ -30,12 +35,6 @@ RSpec.describe UserRoom, type: :model do
       user_room.room = nil
       user_room.valid?
       expect(user_room.errors[:room]).to include("can't be blank")
-    end
-    it "is invalid when room model is not existed" do
-      expect do
-        user_room.room_id = 9999
-        user_room.save!
-      end.to raise_error( ActiveRecord::RecordInvalid )
     end
     it "is invalid when combo of user_id and room_id is not unique" do
       user_room.save!

@@ -12,7 +12,6 @@ RSpec.feature 'Create room', type: :feature do
       click_link "Create Message"
       expect(page).to have_selector "h1", text: "Create Message"
       expect(page).to have_button "Next"
-      expect(page).to have_field("Bob")
       expect(page).to have_field("Alice")
       expect(page).to have_field("Carol")
     end
