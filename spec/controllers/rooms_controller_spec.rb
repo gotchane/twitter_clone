@@ -164,5 +164,12 @@ RSpec.describe RoomsController, type: :controller do
     end
   end
   describe 'DELETE #destroy' do
+    it "redirects user_room_path" do
+      room = create(:room, create_user_id: user.id,
+                           current_user: user,
+                           user_rooms_attributes:[{ user_id: user.id },{ user_id: invitee.id }] )
+      delete :destroy, params: { user_id: user.id, id: user.rooms.first.id }
+      expect(response).to redirect_to user_rooms_path(user)
+    end
   end
 end
