@@ -10,10 +10,8 @@ RSpec.describe Room, type: :model do
   describe 'scope' do
     it 'sort_by_message_created' do
       room_first = create(:room, create_user_id: user.id,
-                           current_user: user,
                            user_rooms_attributes:[{ user_id: user.id },{ user_id: alice.id }] )
       room_second = create(:room, create_user_id: user.id,
-                           current_user: user,
                            user_rooms_attributes:[{ user_id: user.id },{ user_id: carol.id }] )
       msg_first_room = create(:message, room: user.rooms.first, user: user, current_user: user, body:"1st message")
       msg_second_room = create(:message, room: user.rooms.second, user: user, current_user: user, body:"2nd message")
@@ -24,7 +22,6 @@ RSpec.describe Room, type: :model do
   describe 'valid room model' do
     it "is valid" do
       room = create(:room, create_user_id: user.id,
-                           current_user: user,
                            user_rooms_attributes:[{ user_id: user.id },{ user_id: alice.id }] )
       room.save
       expect(room).to be_valid
@@ -33,7 +30,6 @@ RSpec.describe Room, type: :model do
   describe 'invalid room model' do
     it "is invalid when create_user_id is blank" do
       room = create(:room, create_user_id: user.id,
-                           current_user: user,
                            user_rooms_attributes:[{ user_id: user.id },{ user_id: alice.id }] )
       room.create_user_id = nil
       room.valid?

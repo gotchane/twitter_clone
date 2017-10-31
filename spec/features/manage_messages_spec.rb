@@ -6,10 +6,7 @@ RSpec.feature 'Manage messages', type: :feature do
       bob = create(:user, name: "Bob")
       alice = create(:user, name: "Alice")
       room_first = create(:room, create_user_id: bob.id,
-                           current_user: bob,
                            user_rooms_attributes:[{ user_id: bob.id },{ user_id: alice.id }] )
-      #bob.rooms << create(:room, create_user_id: bob.id)
-      #first_room_alice = create(:user_room, user: alice, current_user: alice,room: bob.rooms.first)
       msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, current_user: bob, body:"1st_bob")
       msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, current_user: alice, body:"1st_alice")
       login_as(bob)
@@ -29,7 +26,6 @@ RSpec.feature 'Manage messages', type: :feature do
       bob = create(:user, name: "Bob")
       alice = create(:user, name: "Alice")
       room_first = create(:room, create_user_id: bob.id,
-                           current_user: bob,
                            user_rooms_attributes:[{ user_id: bob.id },{ user_id: alice.id }] )
       visit root_path
       visit "/users/#{bob.id}/rooms/#{bob.rooms.first.id}"

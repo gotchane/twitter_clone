@@ -18,7 +18,6 @@ class RoomsController < ApplicationController
 
   def create
     @room = current_user.rooms.build(room_params)
-    @room.current_user = current_user
     if @room.save
       redirect_to user_room_path(current_user, @room)
     else
