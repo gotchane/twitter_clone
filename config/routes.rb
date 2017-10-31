@@ -12,9 +12,10 @@ Rails.application.routes.draw do
     end
     resources :tweets,  only: [:create, :destroy]
     resources :rooms,  only: [:index, :show, :new, :create, :destroy] do
-      resources :messages,  only: [:new, :create, :destroy]
-      member do
-        get :mark_read
+      resources :messages,  only: [:new, :create, :destroy] do
+        collection do
+          get :mark_read
+        end
       end
     end
   end

@@ -1,5 +1,5 @@
 class RoomsController < ApplicationController
-  before_action :set_room, only:[:show, :destroy, :mark_read]
+  before_action :set_room, only:[:show, :destroy]
   before_action :set_user_room, only:[:show, :destroy]
 
   def index
@@ -24,13 +24,6 @@ class RoomsController < ApplicationController
     else
       render 'new'
     end
-  end
-
-  def mark_read
-    @message = @room.messages.order(created_at: :desc).first
-    @message.current_user = current_user
-    @message.mark_last_read_message
-    render json: {status: "OK", code: 200}
   end
 
   def destroy

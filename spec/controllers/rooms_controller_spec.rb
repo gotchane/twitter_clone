@@ -134,35 +134,6 @@ RSpec.describe RoomsController, type: :controller do
       expect(response).to render_template :show
     end
   end
-  describe 'GET #mark_read' do
-    it "populates a room of current user" do
-      room = create(:room, create_user_id: user.id,
-                           current_user: user,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: invitee.id }] )
-      get :show, params: { user_id: user.id, id: user.rooms.first.id }
-      expect(assigns(:room)).to eq(user.rooms.first)
-    end
-    it "populates a room of current user" do
-      room = create(:room, create_user_id: user.id,
-                           current_user: user,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: invitee.id }] )
-      user_room = UserRoom.where("user_id = ? and room_id = ?", user.id, user.rooms.first.id)
-      user.rooms.first.messages << create_list(:message, 2, room: user.rooms.first,
-                                                            user: user,
-                                                            current_user: user,
-                                                            body:"test")
-      get :mark_read, params: { user_id: user.id, id: user.rooms.first.id }
-      expect(user_room.first.latest_read_message_id).to eq(user.rooms.first.messages.last.id)
-    end
-    it "renders json" do
-      room = create(:room, create_user_id: user.id,
-                           current_user: user,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: invitee.id }] )
-      msg = create(:message, room: user.rooms.first, user: user, current_user: user, body:"test")
-      get :mark_read, params: { user_id: user.id, id: user.rooms.first.id }
-      expect(response.status).to eq(200)
-    end
-  end
   describe 'DELETE #destroy' do
     it "redirects user_room_path" do
       room = create(:room, create_user_id: user.id,

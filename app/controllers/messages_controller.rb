@@ -24,6 +24,13 @@ class MessagesController < ApplicationController
     redirect_to request.referrer, success: "Message deleted successfully!"
   end
 
+  def mark_read
+    @message = @room.messages.order(created_at: :desc).first
+    @message.current_user = current_user
+    @message.mark_last_read_message
+    render json: {status: "OK", code: 200}
+  end
+
   private
     def set_room
       @room = current_user.rooms.find(params[:room_id])

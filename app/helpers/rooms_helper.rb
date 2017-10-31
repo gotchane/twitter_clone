@@ -35,8 +35,4 @@ module RoomsHelper
       msg_id
     end
   end
-
-  def mark_read_url(room)
-    "/users/#{current_user.id}/rooms/#{room.id}/mark_read"
-  end
 end
