@@ -5,7 +5,6 @@ RSpec.describe UserRoom, type: :model do
   let!(:alice) { create(:user) }
   let!(:room) {
     create(:room, create_user_id: user.id,
-             current_user: user,
              user_rooms_attributes:[{ user_id: user.id },{ user_id: alice.id }])
   }
   let!(:user_room) { room.user_rooms.first }

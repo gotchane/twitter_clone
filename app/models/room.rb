@@ -40,6 +40,11 @@ class Room < ApplicationRecord
               .update_attributes(available_flag: false, last_history_deleted: DateTime.now)
   end
 
+  def datetime_last_history_deleted(user)
+    user_room = user_rooms.find_by(user: user)
+    user_room.last_history_deleted.nil? ? user_room.created_at : user_room.last_history_deleted
+  end
+
   private
     def create_room_user
       user_rooms.find { |user_room| user_room[:user_id] == create_user_id }.user

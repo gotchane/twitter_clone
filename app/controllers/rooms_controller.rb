@@ -7,7 +7,7 @@ class RoomsController < ApplicationController
   end
 
   def show
-    @messages = @room.messages.after_history_deletion(@user_room.datetime_last_history_deleted)
+    @messages = @room.messages.after_history_deletion(@room.datetime_last_history_deleted(current_user))
                               .order(created_at: :desc)
     @message_post = current_user.messages.new
   end
