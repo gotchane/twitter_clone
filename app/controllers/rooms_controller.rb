@@ -1,6 +1,5 @@
 class RoomsController < ApplicationController
   before_action :set_room, only:[:show, :destroy]
-  before_action :set_user_room, only:[:show, :destroy]
 
   def index
     @rooms = current_user.rooms.check_available(true).sort_by_message_created
@@ -33,10 +32,6 @@ class RoomsController < ApplicationController
   private
     def set_room
       @room = current_user.rooms.check_available(true).find(params[:id])
-    end
-
-    def set_user_room
-      @user_room = @room.user_rooms.find_by(user: current_user)
     end
 
     def room_params
