@@ -27,7 +27,7 @@ class RoomsController < ApplicationController
   end
 
   def destroy
-    @user_room.delete_messages_history
+    @room.delete_messages_history(current_user)
     redirect_to user_rooms_path(current_user), success: "Messages history deleted successfully!"
   end
 

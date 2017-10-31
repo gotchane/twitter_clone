@@ -36,4 +36,9 @@ class Room < ApplicationRecord
     errors[:base] << 'Participant combination is overlapped.' unless check_flag
     check_flag
   end
+
+  def delete_messages_history(user)
+    user_rooms.find_by(user: user)
+              .update_attributes(available_flag: false, last_history_deleted: DateTime.now)
+  end
 end
