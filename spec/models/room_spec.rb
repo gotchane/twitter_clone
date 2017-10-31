@@ -13,8 +13,8 @@ RSpec.describe Room, type: :model do
                            user_rooms_attributes:[{ user_id: user.id },{ user_id: alice.id }] )
       room_second = create(:room, create_user_id: user.id,
                            user_rooms_attributes:[{ user_id: user.id },{ user_id: carol.id }] )
-      msg_first_room = create(:message, room: user.rooms.first, user: user, current_user: user, body:"1st message")
-      msg_second_room = create(:message, room: user.rooms.second, user: user, current_user: user, body:"2nd message")
+      msg_first_room = create(:message, room: user.rooms.first, user: user, body:"1st message")
+      msg_second_room = create(:message, room: user.rooms.second, user: user, body:"2nd message")
       rooms_expected = user.rooms.sort_by_message_created
       expect(rooms_expected.first.id).to eq(user.rooms.second.id)
     end

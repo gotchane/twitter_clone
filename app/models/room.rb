@@ -36,21 +36,21 @@ class Room < ApplicationRecord
   end
 
   def delete_messages_history(user)
-    user_rooms.find_by(user: user)
+    self.user_rooms.find_by(user: user)
               .update_attributes(available_flag: false, last_history_deleted: DateTime.now)
   end
 
   def datetime_last_history_deleted(user)
-    user_room = user_rooms.find_by(user: user)
+    user_room = self.user_rooms.find_by(user: user)
     user_room.last_history_deleted.nil? ? user_room.created_at : user_room.last_history_deleted
   end
 
   private
     def create_room_user
-      user_rooms.find { |user_room| user_room[:user_id] == create_user_id }.user
+      self.user_rooms.find { |user_room| user_room[:user_id] == self.create_user_id }.user
     end
 
     def match_array
-      user_rooms.map(&:user_id)
+      self.user_rooms.map(&:user_id)
     end
 end
