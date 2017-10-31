@@ -109,7 +109,7 @@ RSpec.describe RoomsController, type: :controller do
     it "populates messages of room" do
       room = create(:room, create_user_id: user.id,
                            user_rooms_attributes:[{ user_id: user.id },{ user_id: invitee.id }] )
-      msg = create(:message, room: user.rooms.first, user: user, current_user: user, body:"test")
+      msg = create(:message, room: user.rooms.first, user: user, body:"test")
       get :show, params: { user_id: user.id, id: user.rooms.first.id }
       expect(assigns(:messages)).to match_array([msg])
     end

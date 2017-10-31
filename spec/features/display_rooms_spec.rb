@@ -10,11 +10,11 @@ RSpec.feature 'Display rooms', type: :feature do
                            user_rooms_attributes:[{ user_id: bob.id },{ user_id: alice.id }] )
       room_second = create(:room, create_user_id: bob.id,
                            user_rooms_attributes:[{ user_id: bob.id },{ user_id: alice.id },{ user_id: carol.id }] )
-      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, current_user:bob, body:"1st_bob")
-      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, current_user:alice, body:"1st_alice")
-      msg_bob_second_room = create(:message, room: bob.rooms.second, user: bob, current_user:bob, body:"2nd_bob")
-      msg_alice_second_room = create(:message, room: bob.rooms.second, user: alice, current_user:alice, body:"2nd_alice")
-      msg_carol_second_room = create(:message, room: bob.rooms.second, user: carol, current_user:carol, body:"2nd_carol")
+      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
+      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      msg_bob_second_room = create(:message, room: bob.rooms.second, user: bob, body:"2nd_bob")
+      msg_alice_second_room = create(:message, room: bob.rooms.second, user: alice, body:"2nd_alice")
+      msg_carol_second_room = create(:message, room: bob.rooms.second, user: carol, body:"2nd_carol")
       login_as(bob)
       visit root_path
       click_link "Message"

@@ -7,7 +7,7 @@ class MessagesController < ApplicationController
 
   def create
     @message = @room.messages.build(message_params)
-    @message.user = @message.current_user = current_user
+    @message.user = current_user
     if @message.save
       redirect_to user_room_path(current_user,@room), success: "Post message succeeded!"
     else
@@ -26,8 +26,7 @@ class MessagesController < ApplicationController
 
   def mark_read
     @message = @room.messages.order(created_at: :desc).first
-    @message.current_user = current_user
-    @message.mark_last_read_message
+    @message.mark_last_read_message(current_user)
     render json: {status: "OK", code: 200}
   end
 

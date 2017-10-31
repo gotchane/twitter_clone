@@ -7,8 +7,8 @@ RSpec.feature 'Manage messages', type: :feature do
       alice = create(:user, name: "Alice")
       room_first = create(:room, create_user_id: bob.id,
                            user_rooms_attributes:[{ user_id: bob.id },{ user_id: alice.id }] )
-      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, current_user: bob, body:"1st_bob")
-      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, current_user: alice, body:"1st_alice")
+      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
+      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
       login_as(bob)
       visit root_path
       click_link "Message"
