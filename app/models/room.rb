@@ -49,6 +49,16 @@ class Room < ApplicationRecord
     self.user_rooms.update_all(available_flag: true) if self.unavailable_participant?
   end
 
+  def has_unread_message?(user)
+    room_latest_message_id = self.messages.order(id: :desc).first.id unless self.messages.count == 0
+    latest_read_message_id = user.user_rooms.find_by(room: self).latest_read_message_id
+    if self.messages.count != 0 && room_latest_message_id.to_i > latest_read_message_id.to_i
+      true
+    else
+      false
+    end
+  end
+
   private
     def user_ids_without_me(user_ids)
       user_ids.reject { |user_id| user_id == self.create_user_id }

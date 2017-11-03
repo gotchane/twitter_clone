@@ -9,14 +9,7 @@ module RoomsHelper
   end
 
   def read_state(room)
-    latest_read_message_id = current_user.user_rooms
-                                         .find_by(room: room)
-                                         .latest_read_message_id
-    room_latest_message_id = room.messages.order(id: :desc)
-                                          .first.id unless room.messages.count == 0
-    if room.messages.count != 0 && !latest_read_message_id.nil? && !room_latest_message_id.nil?
-      "--unread" if room_latest_message_id > latest_read_message_id
-    end
+    "--unread" if room.has_unread_message?(current_user)
   end
 
   def last_read_msg_id(room)
