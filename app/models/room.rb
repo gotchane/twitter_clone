@@ -2,7 +2,6 @@ class Room < ApplicationRecord
   has_many :messages
   has_many :user_rooms, inverse_of: :room
   has_many :users, through: :user_rooms
-  accepts_nested_attributes_for :user_rooms
   validates :create_user_id, presence: true
   validate :check_empty_room?, on: :create
   validate :check_dup_room?, on: :create, if: :check_empty_room?
@@ -16,9 +15,7 @@ class Room < ApplicationRecord
   end
 
   def check_empty_room?
-    check_empty_array = match_array
-    check_empty_array.delete(create_room_user.id)
-    if !check_empty_array.empty?
+    if !self.user_ids.empty?
       true
     else
       errors[:base] << 'No one is selected as room participant.'
@@ -27,12 +24,12 @@ class Room < ApplicationRecord
   end
 
   def check_dup_room?
-    check_flag = true
-    create_room_user.rooms.check_available(true).each do |room|
-      check_flag = false if match_array.sort == room.users.ids.sort
+    if !create_room_user.rooms.any? { |room| self.user_ids.sort == user_ids_without_me(room.users.ids).sort }
+      true
+    else
+      errors[:base] << 'Participant combination is overlapped.'
+      false
     end
-    errors[:base] << 'Participant combination is overlapped.' unless check_flag
-    check_flag
   end
 
   def delete_messages_history(user)
@@ -55,11 +52,11 @@ class Room < ApplicationRecord
   end
 
   private
-    def create_room_user
-      self.user_rooms.find { |user_room| user_room[:user_id] == self.create_user_id }.user
+    def user_ids_without_me(user_ids)
+      user_ids.reject { |user_id| user_id == self.create_user_id }
     end
 
-    def match_array
-      self.user_rooms.map(&:user_id)
+    def create_room_user
+      self.user_rooms.find { |user_room| user_room[:user_id] == self.create_user_id }.user
     end
 end
