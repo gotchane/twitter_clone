@@ -6,7 +6,7 @@ RSpec.feature 'Manage messages', type: :feature do
       bob = create(:user, name: "Bob")
       alice = create(:user, name: "Alice")
       room_first = create(:room, create_user_id: bob.id,
-                           user_rooms_attributes:[{ user_id: bob.id },{ user_id: alice.id }] )
+                                 user_ids:[bob.id,alice.id])
       msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
       msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
       login_as(bob)
@@ -26,7 +26,7 @@ RSpec.feature 'Manage messages', type: :feature do
       bob = create(:user, name: "Bob")
       alice = create(:user, name: "Alice")
       room_first = create(:room, create_user_id: bob.id,
-                           user_rooms_attributes:[{ user_id: bob.id },{ user_id: alice.id }] )
+                                 user_ids:[bob.id,alice.id])
       visit root_path
       visit "/users/#{bob.id}/rooms/#{bob.rooms.first.id}"
       expect(page).to have_content "Please log in."

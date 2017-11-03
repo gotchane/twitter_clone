@@ -10,9 +10,9 @@ RSpec.describe Room, type: :model do
   describe 'scope' do
     it 'sort_by_message_created' do
       room_first = create(:room, create_user_id: user.id,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: alice.id }] )
+                                 user_ids:[user.id,alice.id])
       room_second = create(:room, create_user_id: user.id,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: carol.id }] )
+                                  user_ids:[user.id,carol.id])
       msg_first_room = create(:message, room: user.rooms.first, user: user, body:"1st message")
       msg_second_room = create(:message, room: user.rooms.second, user: user, body:"2nd message")
       rooms_expected = user.rooms.sort_by_message_created
@@ -22,7 +22,7 @@ RSpec.describe Room, type: :model do
   describe 'valid room model' do
     it "is valid" do
       room = create(:room, create_user_id: user.id,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: alice.id }] )
+                           user_ids:[user.id,alice.id])
       room.save
       expect(room).to be_valid
     end
@@ -30,7 +30,7 @@ RSpec.describe Room, type: :model do
   describe 'invalid room model' do
     it "is invalid when create_user_id is blank" do
       room = create(:room, create_user_id: user.id,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: alice.id }] )
+                           user_ids:[user.id,alice.id])
       room.create_user_id = nil
       room.valid?
       expect(room.errors[:create_user_id]).to include("can't be blank")

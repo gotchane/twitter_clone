@@ -3,17 +3,16 @@ require 'rails_helper'
 RSpec.describe RoomsController, type: :controller do
   let!(:user) { create(:user) }
   let!(:invitee) { create(:user) }
+  let!(:invitee_2nd) { create(:user) }
+  let!(:room) { create(:room, create_user_id: user.id,
+                              user_ids:[user.id,invitee.id]) }
   before { session[:user_id] = user.id }
   describe 'GET #index' do
     it "populates an array of all rooms related to current user" do
-      room = create(:room, create_user_id: user.id,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: invitee.id }] )
       get :index, params: { user_id: user.id }
       expect(assigns(:rooms)).to match_array(user.rooms)
     end
     it "populates an array of rooms without unavailable" do
-      room = create(:room, create_user_id: user.id,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: invitee.id }] )
       user.rooms.first.user_rooms.first.available_flag = false
       get :index, params: { user_id: user.id }
       expect(assigns(:rooms).count).to eq(1)
@@ -41,7 +40,7 @@ RSpec.describe RoomsController, type: :controller do
           user_id: user.id,
           room: {
             create_user_id: user.id,
-            user_ids: [invitee.id]
+            user_ids: [invitee_2nd.id]
           }
         }
       }.to change(Room, :count).by(1)
@@ -53,7 +52,7 @@ RSpec.describe RoomsController, type: :controller do
           user_id: user.id,
           room: {
             create_user_id: user.id,
-            user_ids: [invitee.id]
+            user_ids: [invitee_2nd.id]
           }
         }
       }.to change(UserRoom, :count).by(2)
@@ -64,14 +63,12 @@ RSpec.describe RoomsController, type: :controller do
         user_id: user.id,
         room: {
           create_user_id: user.id,
-          user_ids: [invitee.id]
+          user_ids: [invitee_2nd.id]
         }
       }
-      expect(response).to redirect_to user_room_path(user, Room.find_by(create_user_id: user.id))
+      expect(response).to redirect_to user_room_path(user, Room.find(2))
     end
     it "redirect to the :new template when creating dup room" do
-      room = create(:room, create_user_id: user.id,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: invitee.id }] )
       post :create,
       params: {
         user_id: user.id,
@@ -95,41 +92,25 @@ RSpec.describe RoomsController, type: :controller do
   end
   describe 'GET #show' do
     it "populates a room of current user" do
-      room = create(:room, create_user_id: user.id,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: invitee.id }] )
       get :show, params: { user_id: user.id, id: user.rooms.first.id }
       expect(assigns(:room)).to eq(user.rooms.first)
     end
-    it "populates relations between users and a room" do
-      room = create(:room, create_user_id: user.id,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: invitee.id }] )
-      get :show, params: { user_id: user.id, id: user.rooms.first.id }
-      expect(assigns(:user_room)).to eq(user.rooms.first.user_rooms.first)
-    end
     it "populates messages of room" do
-      room = create(:room, create_user_id: user.id,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: invitee.id }] )
       msg = create(:message, room: user.rooms.first, user: user, body:"test")
       get :show, params: { user_id: user.id, id: user.rooms.first.id }
       expect(assigns(:messages)).to match_array([msg])
     end
     it "assigns new Room to @room" do
-      room = create(:room, create_user_id: user.id,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: invitee.id }] )
       get :show, params: { user_id: user.id, id: user.rooms.first.id }
       expect(assigns(:message_post)).to be_a_new(Message)
     end
     it "renders the :show template" do
-      room = create(:room, create_user_id: user.id,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: invitee.id }] )
       get :show, params: { user_id: user.id, id: user.rooms.first.id }
       expect(response).to render_template :show
     end
   end
   describe 'DELETE #destroy' do
     it "redirects user_room_path" do
-      room = create(:room, create_user_id: user.id,
-                           user_rooms_attributes:[{ user_id: user.id },{ user_id: invitee.id }] )
       delete :destroy, params: { user_id: user.id, id: user.rooms.first.id }
       expect(response).to redirect_to user_rooms_path(user)
     end

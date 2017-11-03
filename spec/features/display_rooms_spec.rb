@@ -7,9 +7,9 @@ RSpec.feature 'Display rooms', type: :feature do
       alice = create(:user, name: "Alice")
       carol = create(:user, name: "Carol")
       room_first = create(:room, create_user_id: bob.id,
-                           user_rooms_attributes:[{ user_id: bob.id },{ user_id: alice.id }] )
+                                  user_ids:[bob.id,alice.id])
       room_second = create(:room, create_user_id: bob.id,
-                           user_rooms_attributes:[{ user_id: bob.id },{ user_id: alice.id },{ user_id: carol.id }] )
+                                  user_ids:[bob.id,alice.id,carol.id])
       msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
       msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
       msg_bob_second_room = create(:message, room: bob.rooms.second, user: bob, body:"2nd_bob")
