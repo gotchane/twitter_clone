@@ -33,13 +33,11 @@ class Room < ApplicationRecord
   end
 
   def delete_messages_history(user)
-    self.user_rooms.find_by(user: user)
-              .update_attributes(available_flag: false, last_history_deleted: DateTime.now)
+    self.user_rooms.find_by(user: user).delete_history
   end
 
   def datetime_last_history_deleted(user)
-    user_room = self.user_rooms.find_by(user: user)
-    user_room.last_history_deleted.nil? ? user_room.created_at : user_room.last_history_deleted
+    self.user_rooms.find_by(user: user).datetime_history_deleted
   end
 
   def unavailable_participant?
