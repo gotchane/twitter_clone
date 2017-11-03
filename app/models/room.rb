@@ -45,6 +45,15 @@ class Room < ApplicationRecord
     user_room.last_history_deleted.nil? ? user_room.created_at : user_room.last_history_deleted
   end
 
+  def unavailable_participant?
+    count = self.user_rooms.where(user_rooms:{available_flag: false}).count
+    count != 0 ? true : false
+  end
+
+  def reactivate_participant
+    self.user_rooms.update_all(available_flag: true) if self.unavailable_participant?
+  end
+
   private
     def create_room_user
       self.user_rooms.find { |user_room| user_room[:user_id] == self.create_user_id }.user
