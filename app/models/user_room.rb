@@ -15,4 +15,13 @@ class UserRoom < ApplicationRecord
   def datetime_history_deleted
     self.last_history_deleted.nil? ? self.created_at : self.last_history_deleted
   end
+
+  def my_last_read_msg_id(room)
+    msg_id = self.latest_read_message_id
+    if msg_id == 0 && room.messages.count != 0
+      room.messages.order(id: :asc).first.id
+    else
+      msg_id
+    end
+  end
 end

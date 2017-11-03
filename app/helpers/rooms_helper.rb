@@ -13,11 +13,6 @@ module RoomsHelper
   end
 
   def last_read_msg_id(room)
-    msg_id = room.user_rooms.find_by(user: current_user).latest_read_message_id
-    if msg_id == 0 && room.messages.count != 0
-      room.messages.order(id: :asc).first.id
-    else
-      msg_id
-    end
+    room.user_rooms.find_by(user: current_user).my_last_read_msg_id(room)
   end
 end
