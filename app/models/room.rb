@@ -2,6 +2,7 @@ class Room < ApplicationRecord
   has_many :messages
   has_many :user_rooms, inverse_of: :room
   has_many :users, through: :user_rooms
+  belongs_to :create_user, class_name:  "User"
   validates :create_user_id, presence: true
   validate :check_empty_room?, on: :create
   validate :check_dup_room?, on: :create, if: :check_empty_room?
@@ -24,7 +25,7 @@ class Room < ApplicationRecord
   end
 
   def check_dup_room?
-    if !create_room_user.rooms.any? { |room| self.user_ids.sort == user_ids_without_me(room.users.ids).sort }
+    if !self.create_user.rooms.any? { |room| self.user_ids.sort == user_ids_without_me(room.users.ids).sort }
       true
     else
       errors[:base] << 'Participant combination is overlapped.'
@@ -62,9 +63,5 @@ class Room < ApplicationRecord
   private
     def user_ids_without_me(user_ids)
       user_ids.reject { |user_id| user_id == self.create_user_id }
-    end
-
-    def create_room_user
-      self.user_rooms.find { |user_room| user_room[:user_id] == self.create_user_id }.user
     end
 end
