@@ -1,13 +1,14 @@
 require 'rails_helper'
 
 RSpec.feature 'Manage messages', type: :feature do
+  given!(:bob) { create(:user, name: "Bob") }
+  given!(:alice) { create(:user, name: "Alice") }
+  given!(:carol) { create(:user, name: "Carol") }
+  given!(:room) { create(:room, create_user_id: bob.id, user_ids:[bob.id,alice.id]) }
   context "as logged in user" do
     scenario "show messages page", js: true do
-      bob = create(:user, name: "Bob")
-      alice = create(:user, name: "Alice")
-      room = create(:room, create_user_id: bob.id, user_ids:[bob.id,alice.id])
-      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
-      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      msg_bob = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
+      msg_alice = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
       login_as(bob)
       visit root_path
       click_link "Message"
@@ -20,10 +21,7 @@ RSpec.feature 'Manage messages', type: :feature do
       expect(page).to have_selector ".room-messages__item__box__msg", text: "1st_alice"
     end
     scenario "post a message successfully", js: true do
-      bob = create(:user, name: "Bob")
-      alice = create(:user, name: "Alice")
-      room = create(:room, create_user_id: bob.id, user_ids:[bob.id,alice.id])
-      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      msg_alice = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
       login_as(bob)
       click_link "Message"
       click_link "Bob / Alice"
@@ -33,9 +31,6 @@ RSpec.feature 'Manage messages', type: :feature do
       expect(page).to have_selector ".room-messages__item__box__msg", text: "new bob message."
     end
     scenario "fail to post an empty message" do
-      bob = create(:user, name: "Bob")
-      alice = create(:user, name: "Alice")
-      room = create(:room, create_user_id: bob.id, user_ids:[bob.id,alice.id])
       login_as(bob)
       click_link "Message"
       click_link "Bob / Alice"
@@ -43,9 +38,6 @@ RSpec.feature 'Manage messages', type: :feature do
       expect(page).to have_content "Body can't be blank"
     end
     scenario "fail to post a message over 500 chars" do
-      bob = create(:user, name: "Bob")
-      alice = create(:user, name: "Alice")
-      room = create(:room, create_user_id: bob.id, user_ids:[bob.id,alice.id])
       login_as(bob)
       click_link "Message"
       click_link "Bob / Alice"
@@ -54,9 +46,6 @@ RSpec.feature 'Manage messages', type: :feature do
       expect(page).to have_content "Body is too long (maximum is 500 characters)"
     end
     scenario "display messages posted to the room by others" do
-      bob = create(:user, name: "Bob")
-      alice = create(:user, name: "Alice")
-      room = create(:room, create_user_id: bob.id, user_ids:[bob.id,alice.id])
       login_as(alice)
       click_link "Message"
       click_link "Bob / Alice"
@@ -69,9 +58,6 @@ RSpec.feature 'Manage messages', type: :feature do
       expect(page).to have_selector ".room-messages__item__box__msg", text: "new alice message."
     end
     scenario "remains unread message of mine unless others read", js: true do
-      bob = create(:user, name: "Bob")
-      alice = create(:user, name: "Alice")
-      room = create(:room, create_user_id: bob.id, user_ids:[bob.id,alice.id])
       login_as(bob)
       click_link "Message"
       click_link "Bob / Alice"
@@ -80,9 +66,6 @@ RSpec.feature 'Manage messages', type: :feature do
       expect(page).to have_selector ".room-messages__item__box__read", text: "Unread"
     end
     scenario "change message already read after others read", js: true do
-      bob = create(:user, name: "Bob")
-      alice = create(:user, name: "Alice")
-      room = create(:room, create_user_id: bob.id, user_ids:[bob.id,alice.id])
       login_as(bob)
       click_link "Message"
       click_link "Bob / Alice"
@@ -101,9 +84,6 @@ RSpec.feature 'Manage messages', type: :feature do
       expect(page).to have_selector ".room-messages__item__box__read", text: "Read"
     end
     scenario "delete a message successfully", js: true do
-      bob = create(:user, name: "Bob")
-      alice = create(:user, name: "Alice")
-      room = create(:room, create_user_id: bob.id, user_ids:[bob.id,alice.id])
       login_as(bob)
       click_link "Message"
       click_link "Bob / Alice"
@@ -115,10 +95,6 @@ RSpec.feature 'Manage messages', type: :feature do
       expect(page).not_to have_selector ".room-messages__item__box__msg", text: "new bob message."
     end
     scenario "delete message history of room successfully", js: true do
-      bob = create(:user, name: "Bob")
-      alice = create(:user, name: "Alice")
-      room = create(:room, create_user_id: bob.id,
-                                  user_ids:[bob.id,alice.id])
       msg_alice = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
       login_as(bob)
       click_link "Message"
@@ -129,11 +105,6 @@ RSpec.feature 'Manage messages', type: :feature do
       expect(page).not_to have_selector ".rooms__item__box__user", text: "Bob / Alice"
     end
     scenario "show messages posted after message history deletion when message history has deleted", js: true do
-
-      bob = create(:user, name: "Bob")
-      alice = create(:user, name: "Alice")
-      room = create(:room, create_user_id: bob.id,
-                                  user_ids:[bob.id,alice.id])
       login_as(bob)
       click_link "Message"
       click_link "Bob / Alice"
@@ -158,10 +129,6 @@ RSpec.feature 'Manage messages', type: :feature do
   end
   context "as not logged in user" do
     scenario "redirect to login page" do
-      bob = create(:user, name: "Bob")
-      alice = create(:user, name: "Alice")
-      room_first = create(:room, create_user_id: bob.id,
-                                 user_ids:[bob.id,alice.id])
       visit root_path
       visit "/users/#{bob.id}/rooms/#{bob.rooms.first.id}"
       expect(page).to have_content "Please log in."
