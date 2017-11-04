@@ -63,18 +63,6 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   Capybara.javascript_driver = :poltergeist
   config.use_transactional_fixtures = true
-  ## setting of database_cleaner
-  # require 'database_cleaner'
-  # config.before(:suite) do
-  #   DatabaseCleaner.strategy = :truncation
-  #   DatabaseCleaner.clean_with(:truncation)
-  # end
-  # config.before(:each) do
-  #   DatabaseCleaner.start
-  # end
-  # config.after(:each) do
-  #   DatabaseCleaner.clean
-  # end
 end
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|

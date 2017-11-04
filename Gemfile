@@ -46,7 +46,6 @@ group :development, :test do
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
   gem 'poltergeist', '~> 1.10'
-  gem 'database_cleaner'
   gem 'rspec-rails', '~> 3.6'
   gem 'rails-controller-testing'
   gem 'spring-commands-rspec'
