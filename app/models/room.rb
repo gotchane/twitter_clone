@@ -52,7 +52,7 @@ class Room < ApplicationRecord
 
   def existing_unused_room
     self.create_user.rooms.each do |room|
-      if room.unavailable_participant? && self.user_ids.sort == user_ids_without_me(room.users.ids).sort
+      if room.unavailable_participant? && same_participants?(room.users.ids)
         room.reactivate_participant
         return room
       end
@@ -75,9 +75,13 @@ class Room < ApplicationRecord
       user_ids.reject { |user_id| user_id == self.create_user_id }
     end
 
+    def same_participants?(user_ids)
+      self.user_ids.sort == user_ids_without_me(user_ids).sort
+    end
+
     def dup_user_combination?
       self.create_user.rooms.check_available(true).any? do |room|
-        self.user_ids.sort == user_ids_without_me(room.users.ids).sort
+        same_participants?(room.users.ids)
       end
     end
 end
