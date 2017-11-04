@@ -6,7 +6,7 @@ RSpec.feature 'Display rooms', type: :feature do
   given!(:carol) { create(:user, name: "Carol") }
 
   context "as logged in user" do
-    scenario "display rooms where myself participate" do
+    scenario "display rooms where current user participates" do
       room_first = create(:room, create_user_id: bob.id,
                                   user_ids:[bob.id,alice.id])
       room_second = create(:room, create_user_id: bob.id,
@@ -27,7 +27,7 @@ RSpec.feature 'Display rooms', type: :feature do
       expect(page).to have_selector ".rooms__item__box__user", text: "Bob / Alice / Carol"
       expect(page).to have_selector ".rooms__item__box__msg", text: "2nd_carol"
     end
-    scenario "do not display rooms where myself does not participate" do
+    scenario "do not display rooms where current user does not participate" do
       room_first = create(:room, create_user_id: bob.id,
                                   user_ids:[bob.id,alice.id])
       login_as(bob)

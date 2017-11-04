@@ -13,7 +13,8 @@ class MessagesController < ApplicationController
     else
       @message_post = @message
       @user = current_user
-      @messages = @room.messages
+      @messages = @room.messages.after_history_deletion(@room.datetime_last_history_deleted(current_user))
+                                .order(created_at: :desc)
       render template: 'rooms/show'
     end
   end

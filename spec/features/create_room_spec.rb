@@ -17,7 +17,7 @@ RSpec.feature 'Create room', type: :feature do
       expect(page).to have_field("Alice")
       expect(page).to have_field("Carol")
     end
-    scenario "create message room successfully" do
+    scenario "create a message room successfully" do
       login_as(bob)
       visit root_path
       click_link "Message"
@@ -32,7 +32,7 @@ RSpec.feature 'Create room', type: :feature do
       click_link "Message"
       # TODO: select room and display messages of room
     end
-    scenario "cannot create room with no participants" do
+    scenario "cannot create a room with no participants" do
       room_first = create(:room, create_user_id: bob.id,
                                   user_ids:[bob.id,alice.id])
       login_as(bob)
@@ -41,7 +41,7 @@ RSpec.feature 'Create room', type: :feature do
       click_link "Create Message"
       # TODO: select no participant of room and redirect messages of room
     end
-    scenario "cannot create room with dup participants combination" do
+    scenario "cannot create a room with dup participants combination" do
       room_first = create(:room, create_user_id: bob.id,
                                   user_ids:[bob.id,alice.id])
       login_as(bob)

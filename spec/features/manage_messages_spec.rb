@@ -5,7 +5,7 @@ RSpec.feature 'Manage messages', type: :feature do
   given!(:alice) { create(:user, name: "Alice") }
 
   context "as logged in user" do
-    scenario "show messages form" do
+    scenario "show messages page" do
       room_first = create(:room, create_user_id: bob.id,
                                  user_ids:[bob.id,alice.id])
       msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
@@ -31,6 +31,105 @@ RSpec.feature 'Manage messages', type: :feature do
       click_link "Message"
       visit user_room_path(bob,bob.rooms.first)
       # TODO: post message successfully
+    end
+    scenario "fail to post an empty message" do
+      room_first = create(:room, create_user_id: bob.id,
+                                 user_ids:[bob.id,alice.id])
+      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
+      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      login_as(bob)
+      visit root_path
+      click_link "Message"
+      visit user_room_path(bob,bob.rooms.first)
+      # TODO: create empty message and render new
+    end
+    scenario "fail to post a message over 500 chars" do
+      room_first = create(:room, create_user_id: bob.id,
+                                 user_ids:[bob.id,alice.id])
+      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
+      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      login_as(bob)
+      visit root_path
+      click_link "Message"
+      visit user_room_path(bob,bob.rooms.first)
+      # TODO: create over 500 chars message and render new
+    end
+    scenario "display messages posted to the room by others" do
+      room_first = create(:room, create_user_id: bob.id,
+                                 user_ids:[bob.id,alice.id])
+      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
+      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      login_as(bob)
+      visit root_path
+      click_link "Message"
+      visit user_room_path(bob,bob.rooms.first)
+      # TODO: post message successfully
+    end
+    scenario "remains unread message of mine until others read" do
+      room_first = create(:room, create_user_id: bob.id,
+                                 user_ids:[bob.id,alice.id])
+      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
+      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      login_as(bob)
+      visit root_path
+      click_link "Message"
+      visit user_room_path(bob,bob.rooms.first)
+      # TODO: message state is unread
+    end
+    scenario "change message already read after others read" do
+      room_first = create(:room, create_user_id: bob.id,
+                                 user_ids:[bob.id,alice.id])
+      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
+      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      login_as(bob)
+      visit root_path
+      click_link "Message"
+      visit user_room_path(bob,bob.rooms.first)
+      # TODO: message state changes read
+    end
+    scenario "display delete link only messages of mine" do
+      room_first = create(:room, create_user_id: bob.id,
+                                 user_ids:[bob.id,alice.id])
+      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
+      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      login_as(bob)
+      visit root_path
+      click_link "Message"
+      visit user_room_path(bob,bob.rooms.first)
+      # TODO: show delete link
+    end
+    scenario "delete a message successfully" do
+      room_first = create(:room, create_user_id: bob.id,
+                                 user_ids:[bob.id,alice.id])
+      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
+      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      login_as(bob)
+      visit root_path
+      click_link "Message"
+      visit user_room_path(bob,bob.rooms.first)
+      # TODO: delete successfully
+    end
+    scenario "delete message history of room successfully" do
+      room_first = create(:room, create_user_id: bob.id,
+                                 user_ids:[bob.id,alice.id])
+      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
+      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      login_as(bob)
+      visit root_path
+      click_link "Message"
+      visit user_room_path(bob,bob.rooms.first)
+      # TODO: delete message history successfully
+    end
+    scenario "show only messages posted after message history deletion when message history has deleted" do
+      room_first = create(:room, create_user_id: bob.id,
+                                 user_ids:[bob.id,alice.id])
+      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
+      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      login_as(bob)
+      visit root_path
+      click_link "Message"
+      visit user_room_path(bob,bob.rooms.first)
+      # TODO: delete message history successfully
     end
   end
   context "as not logged in user" do

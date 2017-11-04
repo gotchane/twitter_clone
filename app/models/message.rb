@@ -30,7 +30,7 @@ class Message < ApplicationRecord
                                           .where.not(user_id: user.id)
                                           .map(&:latest_read_message_id)
     latest_read_message_ids.each do |latest_read_message_id|
-      read_count += 1 if self.id <= latest_read_message_id
+      read_count += 1 if self.id.to_i <= latest_read_message_id.to_i
     end
     read_count
   end
