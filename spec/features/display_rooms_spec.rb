@@ -27,32 +27,9 @@ RSpec.feature 'Display rooms', type: :feature do
       expect(page).to have_selector ".rooms__item__box__user", text: "Bob / Alice / Carol"
       expect(page).to have_selector ".rooms__item__box__msg", text: "2nd_carol"
     end
-    scenario "do not display rooms where current user does not participate" do
-      room_first = create(:room, create_user_id: bob.id,
-                                  user_ids:[bob.id,alice.id])
-      login_as(bob)
-      visit root_path
-      click_link "Message"
-      click_link "Create Message"
-      # TODO: select dup participant of room and redirect messages of room
-    end
-    scenario "change backgroud color of room with unread messages" do
-      room_first = create(:room, create_user_id: bob.id,
-                                  user_ids:[bob.id,alice.id])
-      login_as(bob)
-      visit root_path
-      click_link "Message"
-      # TODO: create msg and change bg color
-    end
-    scenario "redisplay the room where message history was deleted after other user post a message" do
-      room_first = create(:room, create_user_id: bob.id,
-                                  user_ids:[bob.id,alice.id])
-      login_as(bob)
-      visit root_path
-      click_link "Message"
-      click_link "Create Message"
-      # TODO: select dup participant of room and redirect messages of room
-    end
+    scenario "do not display rooms where current user does not participate"
+    scenario "change backgroud color of room with unread messages"
+    scenario "redisplay the room where message history was deleted after other user post a message"
   end
 
   context "as not logged in user" do
