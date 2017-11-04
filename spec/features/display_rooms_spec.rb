@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 RSpec.feature 'Display rooms', type: :feature do
+  given!(:bob) { create(:user, name: "Bob") }
+  given!(:alice) { create(:user, name: "Alice") }
+  given!(:carol) { create(:user, name: "Carol") }
+
   context "as logged in user" do
-    scenario "display rooms list" do
-      bob = create(:user, name: "Bob")
-      alice = create(:user, name: "Alice")
-      carol = create(:user, name: "Carol")
+    scenario "display rooms where myself participate" do
       room_first = create(:room, create_user_id: bob.id,
                                   user_ids:[bob.id,alice.id])
       room_second = create(:room, create_user_id: bob.id,
@@ -25,6 +26,32 @@ RSpec.feature 'Display rooms', type: :feature do
       expect(page).to have_selector ".rooms__item__box__msg", text: "1st_alice"
       expect(page).to have_selector ".rooms__item__box__user", text: "Bob / Alice / Carol"
       expect(page).to have_selector ".rooms__item__box__msg", text: "2nd_carol"
+    end
+    scenario "do not display rooms where myself does not participate" do
+      room_first = create(:room, create_user_id: bob.id,
+                                  user_ids:[bob.id,alice.id])
+      login_as(bob)
+      visit root_path
+      click_link "Message"
+      click_link "Create Message"
+      # TODO: select dup participant of room and redirect messages of room
+    end
+    scenario "change backgroud color of room with unread messages" do
+      room_first = create(:room, create_user_id: bob.id,
+                                  user_ids:[bob.id,alice.id])
+      login_as(bob)
+      visit root_path
+      click_link "Message"
+      # TODO: create msg and change bg color
+    end
+    scenario "redisplay the room where message history was deleted after other user post a message" do
+      room_first = create(:room, create_user_id: bob.id,
+                                  user_ids:[bob.id,alice.id])
+      login_as(bob)
+      visit root_path
+      click_link "Message"
+      click_link "Create Message"
+      # TODO: select dup participant of room and redirect messages of room
     end
   end
 

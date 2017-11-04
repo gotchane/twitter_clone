@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.feature 'Manage messages', type: :feature do
+  given!(:bob) { create(:user, name: "Bob") }
+  given!(:alice) { create(:user, name: "Alice") }
+
   context "as logged in user" do
     scenario "show messages form" do
-      bob = create(:user, name: "Bob")
-      alice = create(:user, name: "Alice")
       room_first = create(:room, create_user_id: bob.id,
                                  user_ids:[bob.id,alice.id])
       msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
@@ -19,6 +20,17 @@ RSpec.feature 'Manage messages', type: :feature do
       expect(page).to have_selector ".room-messages__item__box__user", text: "Alice"
       expect(page).to have_selector ".room-messages__item__box__msg", text: "1st_bob"
       expect(page).to have_selector ".room-messages__item__box__msg", text: "1st_alice"
+    end
+    scenario "post a message successfully" do
+      room_first = create(:room, create_user_id: bob.id,
+                                 user_ids:[bob.id,alice.id])
+      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
+      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      login_as(bob)
+      visit root_path
+      click_link "Message"
+      visit user_room_path(bob,bob.rooms.first)
+      # TODO: post message successfully
     end
   end
   context "as not logged in user" do
