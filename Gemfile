@@ -49,6 +49,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'rspec-rails', '~> 3.6'
   gem 'rails-controller-testing'
+  gem 'spring-commands-rspec'
   gem 'factory_girl_rails', '~> 3.0'
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
