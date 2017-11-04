@@ -17,11 +17,45 @@ RSpec.feature 'Create room', type: :feature do
       expect(page).to have_field("Alice")
       expect(page).to have_field("Carol")
     end
-    scenario "create a message room successfully"
-    scenario "display messages of room"
-    scenario "cannot create a room with no participants"
-    scenario "cannot create a room with dup participants combination"
-    scenario "rejoin the room of same participants after deletion of message history"
+    scenario "create a message room successfully" do
+      login_as(bob)
+      click_link "Message"
+      click_link "Create Message"
+      check "Alice"
+      click_button "Next"
+      expect(page).to have_selector "h1", text: "Messages of Alice / Bob"
+    end
+    scenario "cannot create a room with no participants" do
+      login_as(bob)
+      click_link "Message"
+      click_link "Create Message"
+      click_button "Next"
+      expect(page).to have_content "No one is selected as room participant."
+    end
+    scenario "cannot create a room with dup participants combination" do
+      login_as(bob)
+      2.times do
+        click_link "Message"
+        click_link "Create Message"
+        check "Alice"
+        click_button "Next"
+      end
+      expect(page).to have_content "Participant combination is overlapped."
+    end
+    scenario "rejoin the room of same participants after deletion of message history", js: true do
+      login_as(bob)
+      click_link "Message"
+      click_link "Create Message"
+      check "Alice"
+      click_button "Next"
+      page.accept_confirm 'Are you sure?' do
+        click_link "Delete messages history"
+      end
+      click_link "Create Message"
+      check "Alice"
+      click_button "Next"
+      expect(page).to have_selector "h1", text: "Messages of Alice / Bob"
+    end
   end
   context "as not logged in user" do
     scenario "redirect to login page" do
