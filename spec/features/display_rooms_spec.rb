@@ -37,7 +37,6 @@ RSpec.feature 'Display rooms', type: :feature do
       expect(page).to have_css(".rooms__item--unread")
     end
     scenario "do not change backgroud color of room with no unread messages", js: true do
-      msg_alice = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
       login_as(bob)
       click_link "Message"
       click_link "Bob / Alice"
@@ -46,18 +45,7 @@ RSpec.feature 'Display rooms', type: :feature do
       click_link "Message"
       expect(page).not_to have_css(".rooms__item--unread")
     end
-    scenario "do not display the room deleted message history", js: true do
-      msg_alice = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
-      login_as(bob)
-      click_link "Message"
-      click_link "Bob / Alice"
-      page.accept_confirm 'Are you sure?' do
-        click_link "Delete messages history"
-      end
-      expect(page).not_to have_selector ".rooms__item__box__user", text: "Bob / Alice"
-    end
     scenario "redisplay the room deleted after other user post a message", js: true do
-      msg_alice = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
       login_as(bob)
       click_link "Message"
       click_link "Bob / Alice"

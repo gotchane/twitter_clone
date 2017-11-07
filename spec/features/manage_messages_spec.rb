@@ -21,7 +21,6 @@ RSpec.feature 'Manage messages', type: :feature do
       expect(page).to have_selector ".room-messages__item__box__msg", text: "1st_alice"
     end
     scenario "post a message successfully", js: true do
-      msg_alice = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
       login_as(bob)
       click_link "Message"
       click_link "Bob / Alice"
@@ -29,21 +28,6 @@ RSpec.feature 'Manage messages', type: :feature do
       click_button "Post"
       expect(page).to have_selector ".room-messages__item__box__user", text: "Bob"
       expect(page).to have_selector ".room-messages__item__box__msg", text: "new bob message."
-    end
-    scenario "fail to post an empty message" do
-      login_as(bob)
-      click_link "Message"
-      click_link "Bob / Alice"
-      click_button "Post"
-      expect(page).to have_content "Body can't be blank"
-    end
-    scenario "fail to post a message over 500 chars" do
-      login_as(bob)
-      click_link "Message"
-      click_link "Bob / Alice"
-      fill_in 'message[body]', with: 'a' * 501
-      click_button "Post"
-      expect(page).to have_content "Body is too long (maximum is 500 characters)"
     end
     scenario "display messages posted to the room by others" do
       login_as(alice)
@@ -95,7 +79,6 @@ RSpec.feature 'Manage messages', type: :feature do
       expect(page).not_to have_selector ".room-messages__item__box__msg", text: "new bob message."
     end
     scenario "delete message history of room successfully", js: true do
-      msg_alice = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
       login_as(bob)
       click_link "Message"
       click_link "Bob / Alice"
