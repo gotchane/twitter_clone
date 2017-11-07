@@ -83,6 +83,6 @@ class Room < ApplicationRecord
     end
 
     def same_participants?(user_ids)
-      self.user_ids.sort == user_ids_without_me(user_ids).sort
+      user_ids_without_me(self.user_ids).sort == user_ids_without_me(user_ids).sort
     end
 end
