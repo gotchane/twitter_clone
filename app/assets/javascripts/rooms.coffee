@@ -5,7 +5,6 @@
 $(document).on 'turbolinks:load', -> 
   if $('.js-room').length != 0 && $('.room-messages__page li').length != 0
     page = $('.room-messages__page')
-    markReadUrl = $('.js-room').data('url')
     lastReadMsgId = $('.js-room').data('msgid')
     lastReadMsg = $('.room-messages__item--' + lastReadMsgId)
     latestMsg = $('.room-messages__page li:last-child')
@@ -15,6 +14,8 @@ $(document).on 'turbolinks:load', ->
       lastReadMsgPos = 0
     jumpPos = page[0].scrollHeight - latestMsg.outerHeight() - (latestMsg.position().top) - lastReadMsg.outerHeight() + lastReadMsgPos
     page.animate { scrollTop: jumpPos }, 0
+
+    markReadUrl = $('.js-room').data('url')
     $('.room-messages__page li:last-child').on 'inview', ->
       $.ajax
         type: 'get'
