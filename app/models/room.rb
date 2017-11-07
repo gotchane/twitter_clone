@@ -16,7 +16,7 @@ class Room < ApplicationRecord
   end
 
   def check_empty_room?
-    if !user_ids_without_me(self.user_ids).empty?
+    unless user_ids_without_me(self.user_ids).empty?
       true
     else
       errors[:base] << 'No one is selected as room participant.'
@@ -27,7 +27,7 @@ class Room < ApplicationRecord
   def check_dup_room?
     check_flag = false
     self.create_user.rooms.check_available(true).any? do |room|
-      check_flag = same_participants?(room.users.ids)
+      check_flag = same_participants?(room.user_ids)
     end
     unless check_flag
       true
