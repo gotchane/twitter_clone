@@ -25,7 +25,11 @@ class Room < ApplicationRecord
   end
 
   def check_dup_room?
-    unless dup_user_combination?
+    check_flag = false
+    self.create_user.rooms.check_available(true).any? do |room|
+      check_flag = same_participants?(room.users.ids)
+    end
+    unless check_flag
       true
     else
       errors[:base] << 'Participant combination is overlapped.'
@@ -77,11 +81,5 @@ class Room < ApplicationRecord
 
     def same_participants?(user_ids)
       self.user_ids.sort == user_ids_without_me(user_ids).sort
-    end
-
-    def dup_user_combination?
-      self.create_user.rooms.check_available(true).any? do |room|
-        same_participants?(room.users.ids)
-      end
     end
 end
