@@ -82,7 +82,7 @@ class Room < ApplicationRecord
       user_ids.reject { |user_id| user_id == self.create_user_id }
     end
 
-    def same_participants?(user_ids)
-      user_ids_without_me(self.user_ids).sort == user_ids_without_me(user_ids).sort
+    def same_participants?(room_user_ids)
+      user_ids_without_me(self.user_ids).sort == user_ids_without_me(room_user_ids).sort
     end
 end
