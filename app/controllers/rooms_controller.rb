@@ -1,6 +1,5 @@
 class RoomsController < ApplicationController
   before_action :set_room, only:[:show, :destroy]
-  before_action :resume_unused_room, only:[:create]
 
   def index
     @rooms = current_user.rooms.check_available(true).sort_by_message_created
@@ -17,7 +16,11 @@ class RoomsController < ApplicationController
   end
 
   def create
-    if @room.save
+    @room = current_user.rooms.build(room_params)
+    unused_room = @room.existing_unused_room
+    if !unused_room.nil?
+      redirect_to user_room_path(current_user, unused_room)
+    elsif @room.save
       redirect_to user_room_path(current_user, @room)
     else
       render 'new'
@@ -36,11 +39,5 @@ class RoomsController < ApplicationController
 
     def room_params
       params.require(:room).permit(:create_user_id, user_ids: [])
-    end
-
-    def resume_unused_room
-      @room = current_user.rooms.build(room_params)
-      unused_room = @room.existing_unused_room
-      redirect_to user_room_path(current_user, unused_room) unless unused_room.nil?
     end
 end
