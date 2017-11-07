@@ -19,6 +19,7 @@ class RoomsController < ApplicationController
     @room = current_user.rooms.build(room_params)
     unused_room = @room.existing_unused_room
     if !unused_room.nil?
+      unused_room.reactivate_participant
       redirect_to user_room_path(current_user, unused_room)
     elsif @room.save
       redirect_to user_room_path(current_user, @room)

@@ -61,7 +61,6 @@ class Room < ApplicationRecord
   def existing_unused_room
     self.create_user.rooms.each do |room|
       if room.unavailable_participant? && same_participants?(room.users.ids)
-        room.reactivate_participant
         return room
       end
     end
