@@ -16,7 +16,7 @@ class Room < ApplicationRecord
   end
 
   def check_empty_room?
-    if !self.user_ids.empty?
+    if !user_ids_without_me(self.user_ids).empty?
       true
     else
       errors[:base] << 'No one is selected as room participant.'
