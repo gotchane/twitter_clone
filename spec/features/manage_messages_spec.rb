@@ -4,7 +4,7 @@ RSpec.feature 'Manage messages', type: :feature do
   given!(:bob) { create(:user, name: "Bob") }
   given!(:alice) { create(:user, name: "Alice") }
   given!(:carol) { create(:user, name: "Carol") }
-  given!(:room) { create(:room, create_user_id: bob.id, user_ids:[bob.id,alice.id]) }
+  given!(:room) { create(:room, create_user: bob, users:[bob,alice]) }
   context "as logged in user" do
     scenario "show messages page", js: true do
       msg_bob = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")

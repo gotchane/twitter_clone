@@ -4,11 +4,10 @@ RSpec.feature 'Display rooms', type: :feature do
   given!(:bob) { create(:user, name: "Bob") }
   given!(:alice) { create(:user, name: "Alice") }
   given!(:carol) { create(:user, name: "Carol") }
-  given!(:room) { create(:room, create_user_id: bob.id, user_ids:[bob.id,alice.id]) }
+  given!(:room) { create(:room, create_user: bob, users:[bob,alice]) }
   context "as logged in user" do
     scenario "display only rooms where current user participates" do
-      room_without_me = create(:room, create_user_id: alice.id,
-                                  user_ids:[alice.id,carol.id])
+      room_without_me = create(:room, create_user: alice, users:[alice,carol])
       msg_bob = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
       msg_alice = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
       msg_carol_without_me = create(:message, room: carol.rooms.first, user: carol, body:"1st_carol")
