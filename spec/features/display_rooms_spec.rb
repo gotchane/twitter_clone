@@ -24,7 +24,12 @@ RSpec.feature 'Display rooms', type: :feature do
       expect(page).not_to have_selector ".rooms__item__box__msg", text: "1st_carol"
     end
     scenario "change backgroud color of room with unread messages" do
-      msg_alice = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      login_as(alice)
+      click_link "Message"
+      click_link "Bob / Alice"
+      fill_in "message[body]", with: 'new alice message.'
+      click_button "Post"
+      click_link "Log out"
       login_as(bob)
       click_link "Message"
       expect(page).to have_selector ".rooms__item__box__user", text: "Bob / Alice"
