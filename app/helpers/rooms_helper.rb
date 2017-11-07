@@ -11,8 +11,4 @@ module RoomsHelper
   def read_state(room)
     "--unread" if room.has_unread_message?(current_user)
   end
-
-  def last_read_msg_id(room)
-    room.user_rooms.find_by(user: current_user).my_last_read_msg_id(room)
-  end
 end

@@ -27,7 +27,7 @@ RSpec.feature 'Display rooms', type: :feature do
       login_as(alice)
       click_link "Message"
       click_link "Bob / Alice"
-      fill_in "message[body]", with: 'new alice message.'
+      fill_in "message[body]", with: '1st_alice'
       click_button "Post"
       click_link "Log out"
       login_as(bob)

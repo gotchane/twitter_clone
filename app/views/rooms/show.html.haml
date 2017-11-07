@@ -11,4 +11,4 @@
 %section.message_form
   = render 'messages/form_new', {user: current_user, room: @room, message: @message_post}
 
-.js-room{data: {msgid: last_read_msg_id(@room), url: mark_read_user_room_messages_path(current_user,@room)}}
+.js-room{data: {msgid: @room.last_read_msg_id(current_user), url: mark_read_user_room_messages_path(current_user,@room)}}

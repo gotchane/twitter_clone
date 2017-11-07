@@ -45,6 +45,10 @@ class Room < ApplicationRecord
     self.user_rooms.find_by(user: user).datetime_history_deleted
   end
 
+  def last_read_msg_id(user)
+    self.user_rooms.find_by(user: user).my_last_read_msg_id
+  end
+
   def unavailable_participant?
     count = self.user_rooms.where(user_rooms:{available_flag: false}).count
     count != 0 ? true : false
