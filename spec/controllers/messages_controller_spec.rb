@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe MessagesController, type: :controller do
   let!(:user) { create(:user) }
   let!(:invitee) { create(:user) }
-  let!(:room) { create(:room, create_user_id: user.id,
-                              user_ids:[user.id,invitee.id]) }
+  let!(:room) { create(:room, create_user: user,
+                              users:[user,invitee]) }
   before { session[:user_id] = user.id }
   describe 'GET #mark_read' do
     it "shows latest message" do

@@ -4,8 +4,8 @@ RSpec.describe RoomsController, type: :controller do
   let!(:user) { create(:user) }
   let!(:invitee) { create(:user) }
   let!(:invitee_2nd) { create(:user) }
-  let!(:room) { create(:room, create_user_id: user.id,
-                              user_ids:[user.id,invitee.id]) }
+  let!(:room) { create(:room, create_user: user,
+                              users:[user,invitee]) }
   before { session[:user_id] = user.id }
   describe 'GET #index' do
     it "populates an array of all rooms related to current user" do
