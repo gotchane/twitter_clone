@@ -3,8 +3,7 @@ require 'rails_helper'
 RSpec.describe UserRoom, type: :model do
   let!(:user) { create(:user) }
   let!(:alice) { create(:user) }
-  let!(:room) { create(:room, create_user_id: user.id,
-                              user_ids:[user.id,alice.id]) }
+  let!(:room) { create(:room, create_user: user, users:[user,alice]) }
   let!(:user_room) { room.user_rooms.first }
   describe 'table association' do
     it { should belong_to(:room) }
