@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Manage messages', type: :feature do
   given!(:bob) { create(:user, name: "Bob") }
   given!(:alice) { create(:user, name: "Alice") }
-  given!(:carol) { create(:user, name: "Carol") }
   given!(:room) { create(:room, create_user: bob, users:[bob,alice]) }
   context "as logged in user" do
     scenario "show messages page", js: true do
