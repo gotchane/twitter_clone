@@ -25,13 +25,7 @@ class Message < ApplicationRecord
   end
 
   def read_count(user)
-    read_count = 0
-    latest_read_message_ids = self.room.user_rooms
-                                          .where.not(user_id: user.id)
-                                          .map(&:latest_read_message_id)
-    latest_read_message_ids.each do |latest_read_message_id|
-      read_count += 1 if self.id.to_i <= latest_read_message_id.to_i
-    end
-    read_count
+    self.room.user_rooms.where.not(user_id: user.id)
+        .where("user_rooms.latest_read_message_id >= ?", self.id).count
   end
 end
