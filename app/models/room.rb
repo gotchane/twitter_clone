@@ -58,12 +58,9 @@ class Room < ApplicationRecord
   end
 
   def existing_unused_room
-    self.create_user.rooms.each do |room|
-      if room.unavailable_participant? && same_participants?(room.users.ids)
-        return room
-      end
+    self.create_user.rooms.find do |room|
+      room.unavailable_participant? && same_participants?(room.users.ids)
     end
-    return nil
   end
 
   def has_unread_message?(user)
