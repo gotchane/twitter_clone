@@ -25,8 +25,7 @@ class Room < ApplicationRecord
   end
 
   def check_dup_room?
-    check_flag = false
-    self.create_user.rooms.check_available(true).any? do |room|
+    check_flag = self.create_user.rooms.check_available(true).any? do |room|
       check_flag = same_participants?(room.user_ids)
     end
     unless check_flag
