@@ -64,9 +64,9 @@ class Room < ApplicationRecord
   end
 
   def has_unread_message?(user)
-    room_latest_message_id = self.messages.order(id: :desc).first.id
-    latest_read_message_id = user.user_rooms.find_by(room: self).latest_read_message_id
-    if self.messages.count != 0 && room_latest_message_id.to_i > latest_read_message_id.to_i
+    room_latest_message_id = self.messages.empty? ? 0 : self.messages.order(id: :desc).first.id
+    latest_read_message_id = self.user_rooms.find_by(user: user).latest_read_message_id
+    if room_latest_message_id > latest_read_message_id
       true
     else
       false
