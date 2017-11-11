@@ -4,6 +4,10 @@ class UserRoom < ApplicationRecord
   validates :user_id, presence: true
   validates :room, presence: true, uniqueness: { scope: :user_id }
 
+  scope :users_read_message, -> (user,message) do
+    where.not(user: user).where("user_rooms.latest_read_message_id >= ?", message.id)
+  end
+
   def mark_read_message(message)
     self.update_attributes(latest_read_message_id: message.id)
   end
