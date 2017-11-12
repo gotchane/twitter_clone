@@ -26,7 +26,7 @@ class Room < ApplicationRecord
 
   def check_dup_room?
     check_flag = self.create_user.rooms.check_available(true).any? do |room|
-      check_flag = same_participants?(room.user_ids)
+      same_participants?(room.user_ids)
     end
     unless check_flag
       true
@@ -64,7 +64,7 @@ class Room < ApplicationRecord
   end
 
   def has_unread_message?(user)
-    room_latest_message_id = self.messages.empty? ? 0 : self.messages.order(id: :desc).first.id
+    room_latest_message_id = self.messages.empty? ? 0 : self.messages.order(id: :desc).first&.id
     latest_read_message_id = self.user_rooms.find_by(user: user).latest_read_message_id
     if room_latest_message_id > latest_read_message_id
       true
