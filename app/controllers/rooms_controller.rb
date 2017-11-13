@@ -17,6 +17,7 @@ class RoomsController < ApplicationController
 
   def create
     @room = current_user.rooms.build(room_params)
+    @room.create_user = current_user
     unused_room = @room.existing_unused_room
     if !unused_room.nil?
       unused_room.reactivate_participant
@@ -39,6 +40,6 @@ class RoomsController < ApplicationController
     end
 
     def room_params
-      params.require(:room).permit(:create_user_id, user_ids: [])
+      params.require(:room).permit(user_ids: [])
     end
 end
