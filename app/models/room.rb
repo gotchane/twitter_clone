@@ -16,7 +16,7 @@ class Room < ApplicationRecord
   end
 
   def check_empty_room?
-    unless user_ids_without_me(self.user_ids).empty?
+    unless user_ids_without_me(self.user_rooms.map(&:user_id)).empty?
       true
     else
       errors[:base] << 'No one is selected as room participant.'
@@ -75,6 +75,6 @@ class Room < ApplicationRecord
     end
 
     def same_participants?(room_user_ids)
-      user_ids_without_me(self.user_ids).sort == user_ids_without_me(room_user_ids).sort
+      self.user_rooms.map(&:user_id).sort == room_user_ids.sort
     end
 end
