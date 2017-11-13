@@ -3,10 +3,7 @@ require 'rails_helper'
 RSpec.describe Message, type: :model do
   let!(:user) { create(:user) }
   let!(:alice) { create(:user) }
-  let!(:room) {
-    create(:room, create_user_id: user.id,
-             user_rooms_attributes:[{ user_id: user.id },{ user_id: alice.id }])
-  }
+  let!(:room) { create(:room, create_user: user, users:[user,alice]) }
   let!(:message) { build(:message, room: user.rooms.first, user: user, body:"1st message") }
   describe 'table association' do
     it { should belong_to(:room) }

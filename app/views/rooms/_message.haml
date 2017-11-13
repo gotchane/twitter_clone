@@ -6,9 +6,9 @@
       %span.room-messages__item__box__user
         = message.user.name
         %span.room-messages__item__box__read
-          = message_read_count(message)
-        - if message.user == current_user
-          = link_to 'delete', [message.user,@room,message], method: :delete, data: { confirm: 'Are you sure?' }, class: 'room-messages__item__box__delete'
+          - if message.user == current_user
+            = message_read_count(message)
+            = link_to 'delete', [message.user,@room,message], method: :delete, data: { confirm: 'Are you sure?' }, class: 'room-messages__item__box__delete'
       %span.room-messages__item__box__msg
         = simple_format(message.body)
       %span.room-messages__item__box__timestamp

@@ -4,24 +4,27 @@ class Message < ApplicationRecord
   validates :user_id, presence: true
   belongs_to :room
   belongs_to :user
-  after_save :reactivate_participant
-  after_save -> { mark_last_read_message(self.user) }
+  after_create :room_reactivate_participant
+  after_create :mark_last_read_my_message
 
   scope :after_history_deletion, -> (datetime) do
     where("messages.created_at > ?", datetime)
   end
 
-  def unavailable_participant?
-    count = self.room.user_rooms.where(user_rooms:{available_flag: false}).count
-    count != 0 ? true : false
+  def room_reactivate_participant
+    self.room.reactivate_participant
   end
 
-  def reactivate_participant
-    self.room.user_rooms.update_all(available_flag: true) if unavailable_participant?
+  def mark_last_read_my_message
+    mark_last_read_message(self.user)
   end
 
   def mark_last_read_message(user)
-    self.room.user_rooms.find_by(user: user)
-                   .update_attributes(latest_read_message_id: self.id) unless self.nil?
+    user_room = self.room.user_rooms.find_by(user: user)
+    user_room.mark_read_message(self)
+  end
+
+  def read_count(user)
+    self.room.user_rooms.users_read_message(user,self).count
   end
 end

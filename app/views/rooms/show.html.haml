@@ -11,23 +11,4 @@
 %section.message_form
   = render 'messages/form_new', {user: current_user, room: @room, message: @message_post}
 
-%input{name: 'last_read_msg_id', type: "hidden", value: last_read_msg_id(@room), class: 'last_read_msg_id' }
-%input{name: 'mark_read_url', type: "hidden", value: mark_read_user_room_messages_path(current_user,@room), class: 'mark_read_url' }
-
-:javascript
-  var page = $('.room-messages__page')
-  var markReadUrl = $('.mark_read_url').val();
-  var lastReadMsgId = $('.last_read_msg_id').val();
-  var lastReadMsg = $(".room-messages__item--" + lastReadMsgId);
-  var latestMsg = $('.room-messages__page li:last-child')
-  var jumpPos =  page[0].scrollHeight - latestMsg.outerHeight() - latestMsg.position().top - lastReadMsg.outerHeight() + lastReadMsg.position().top
-  page.animate({scrollTop: jumpPos}, 0 );
-
-  $('.room-messages__page li:last-child').on('inview', function() {
-    $.ajax({
-      type: 'get',
-      url: markReadUrl,
-      cache: false,
-      dataType: 'json'
-    });
-  });
+.js-room{data: {msgid: @room.last_read_msg_id(current_user), url: mark_read_user_room_messages_path(current_user,@room)}}

@@ -12,8 +12,8 @@ class MessagesController < ApplicationController
       redirect_to user_room_path(current_user,@room), success: "Post message succeeded!"
     else
       @message_post = @message
-      @user = current_user
-      @messages = @room.messages
+      @messages = @room.messages.after_history_deletion(@room.datetime_last_history_deleted(current_user))
+                                .order(created_at: :desc)
       render template: 'rooms/show'
     end
   end

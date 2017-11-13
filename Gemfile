@@ -45,8 +45,10 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+  gem 'poltergeist', '~> 1.10'
   gem 'rspec-rails', '~> 3.6'
   gem 'rails-controller-testing'
+  gem 'spring-commands-rspec'
   gem 'factory_girl_rails', '~> 3.0'
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
@@ -72,7 +74,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # paginate
 gem 'will_paginate', '~> 3.1.0'
-gem 'kaminari'
 
 # file upload
 gem 'carrierwave', '~> 1.0'
@@ -91,4 +92,3 @@ gem 'simple_form'
 
 # jquery
 gem 'jquery-rails'
-gem 'jquery-turbolinks'
