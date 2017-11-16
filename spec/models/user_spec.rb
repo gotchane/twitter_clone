@@ -18,6 +18,19 @@ RSpec.describe User, type: :model do
       end
     end
   end
+  describe 'follow and unfollow' do
+    it "can follow and unfollow" do
+      user = FactoryGirl.build(:user)
+      followed_user = user
+      followed_user.email = 'followed@example.com'
+      user.save!
+      followed_user.save!
+      user.follow(followed_user)
+      expect(user.following?(followed_user)).to be true
+      user.unfollow(followed_user)
+      expect(user.following?(followed_user)).to be false
+    end
+  end
   describe 'invalid user model' do
     it "is invalid when name is blank" do
       user = FactoryGirl.build(:user, name: nil)

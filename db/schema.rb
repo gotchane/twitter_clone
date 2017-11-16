@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170924070638) do
+ActiveRecord::Schema.define(version: 20171015005723) do
+
+  create_table "messages", force: :cascade do |t|
+    t.text "body", null: false
+    t.integer "room_id"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_messages_on_room_id"
+  end
 
   create_table "relationships", force: :cascade do |t|
     t.integer "follower_id"
@@ -22,6 +31,12 @@ ActiveRecord::Schema.define(version: 20170924070638) do
     t.index ["follower_id"], name: "index_relationships_on_follower_id"
   end
 
+  create_table "rooms", force: :cascade do |t|
+    t.integer "create_user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tweets", force: :cascade do |t|
     t.string "tweet_text", limit: 140
     t.integer "user_id"
@@ -30,6 +45,18 @@ ActiveRecord::Schema.define(version: 20170924070638) do
     t.string "image"
     t.index ["user_id", "created_at"], name: "index_tweets_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_tweets_on_user_id"
+  end
+
+  create_table "user_rooms", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "room_id"
+    t.integer "latest_read_message_id", default: 0
+    t.datetime "last_history_deleted"
+    t.boolean "available_flag", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_user_rooms_on_room_id"
+    t.index ["user_id"], name: "index_user_rooms_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

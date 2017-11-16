@@ -1,0 +1,130 @@
+// Place all the styles related to the rooms controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.rooms-avater {
+  width: 50px;
+  height: 50px;
+  float: left;
+  margin: 5px;
+  object-fit: cover;
+}
+
+.rooms-button {
+  margin: 10px 0;
+}
+
+.rooms {
+  list-style: none;
+  padding: 0;
+}
+
+.rooms a {
+  text-decoration: none;
+}
+
+.rooms a:hover {
+  text-decoration: none;
+}
+
+.rooms__item {
+  padding: 10px 0;
+  overflow: auto;
+  border-top: 1px solid #c4c3c3;
+}
+
+.rooms__item--unread {
+  background-color: #effbff;
+}
+
+
+.rooms__item__avater {
+  float:left;
+  width: 125px;
+}
+
+.rooms__item__box {
+  overflow: hidden;
+}
+
+.rooms__item__box__user {
+  margin-top: 5em;
+  font-weight: bold;
+  padding-top: 0;
+}
+
+.rooms__item__box__msg {
+  display: block;
+  color: #b7b7b7;
+}
+
+.room-form-list input {
+  display:block;
+  list-style: none;
+  padding: 0;
+}
+
+.room-form-list label {
+  display: inline-block;
+  list-style: none;
+  padding: 0;
+}
+
+.room-form-list span {
+  display:block;
+  list-style: none;
+  padding: 0;
+}
+
+.room-messages {
+  list-style: none;
+  padding: 0;
+}
+
+.room-messages__page {
+  overflow: auto;
+  height: 250px;
+}
+
+.room-messages__item {
+  padding: 10px 0;
+  border-top: 1px solid #e8e8e8;
+}
+
+.room-messages__item__avater {
+  float:left;
+}
+
+.room-messages__item__box {
+  overflow: hidden;
+}
+
+.room-messages__item__box__user {
+  margin-top: 5em;
+  padding-top: 0;
+  font-weight: bold;
+}
+
+.room-messages__item__box__msg {
+  display: block;
+  margin: 10px 0;
+  font-size: 16px;
+  word-wrap: break-word;
+}
+
+.room-messages__item__box__timestamp {
+  font-size: 12px;
+  color: #949494;
+  font-weight: normal;
+}
+
+.room-messages__item__box__delete {
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.room-messages__item__box__read {
+  font-size: 12px;
+  font-weight: bold;
+  color: #949494;
+}

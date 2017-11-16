@@ -1,0 +1,8 @@
+%h1 Create Message Room
+
+.room-form
+  = simple_form_for([current_user,@room]) do |f|
+    = f.button :submit, "Next" ,class: 'btn btn-primary room-button'
+    = render 'partials/error_messages', object: f.object
+    .room-form-list
+      = f.collection_check_boxes :user_ids, User.where.not(id:current_user.id), :id, :name

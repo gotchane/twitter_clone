@@ -1,0 +1,14 @@
+%h1
+  Messages of 
+  = room_participants(@room.users)
+
+= link_to 'Delete messages history', [current_user,@room], method: :delete, data: { confirm: 'Are you sure?' }, class: 'room-messages__delete'
+
+%ul.room-messages
+  .room-messages__page
+    = render 'rooms/message'
+
+%section.message_form
+  = render 'messages/form_new', {user: current_user, room: @room, message: @message_post}
+
+.js-room{data: {msgid: @room.last_read_msg_id(current_user), url: mark_read_user_room_messages_path(current_user,@room)}}

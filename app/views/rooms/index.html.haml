@@ -1,0 +1,17 @@
+%h1 Direct Messages
+
+.rooms-button
+  = link_to 'Create Message Room', new_user_room_path(current_user), class: 'btn btn-primary'
+
+%ul.rooms
+  - @rooms.each do |room|
+    = link_to user_room_path(current_user,room) do
+      %li{class: "rooms__item rooms__item#{read_state(room)}"}
+        .rooms__item__avater
+          - room.users.each do |user|
+            = image_tag avater_url(user), class: 'rooms-avater'
+        .rooms__item__box
+          %span.rooms__item__box__user
+            = room_participants(room.users)
+          %span.rooms__item__box__msg
+            = room.messages.first.body unless room.messages.empty?

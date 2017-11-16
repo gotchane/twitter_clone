@@ -1,0 +1,15 @@
+- @messages.reverse.each do |message|
+  %li{class: "room-messages__item room-messages__item--#{message.id}"}
+    .room-messages__item__avater
+      = image_tag avater_url(message.user), class: 'rooms-avater'
+    .room-messages__item__box
+      %span.room-messages__item__box__user
+        = message.user.name
+        %span.room-messages__item__box__read
+          - if message.user == current_user
+            = message_read_count(message)
+            = link_to 'delete', [message.user,@room,message], method: :delete, data: { confirm: 'Are you sure?' }, class: 'room-messages__item__box__delete'
+      %span.room-messages__item__box__msg
+        = simple_format(message.body)
+      %span.room-messages__item__box__timestamp
+        Posted #{time_ago_in_words(message.created_at)} ago.

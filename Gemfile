@@ -45,12 +45,15 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+  gem 'poltergeist', '~> 1.10'
   gem 'rspec-rails', '~> 3.6'
   gem 'rails-controller-testing'
+  gem 'spring-commands-rspec'
   gem 'factory_girl_rails', '~> 3.0'
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
+  gem 'faker'
 end
 
 group :development do
@@ -86,3 +89,6 @@ gem 'dotenv-rails'
 
 # forms made easy for Rails
 gem 'simple_form'
+
+# jquery
+gem 'jquery-rails'

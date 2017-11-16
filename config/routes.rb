@@ -11,5 +11,12 @@ Rails.application.routes.draw do
       delete :unfollow
     end
     resources :tweets,  only: [:create, :destroy]
+    resources :rooms,  only: [:index, :show, :new, :create, :destroy] do
+      resources :messages,  only: [:new, :create, :destroy] do
+        collection do
+          get :mark_read
+        end
+      end
+    end
   end
 end
