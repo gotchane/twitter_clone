@@ -2,28 +2,32 @@ class MessagesController < ApplicationController
   before_action :set_room
 
   def new
-    @message = current_user.messages.new(room_id: @room.id)
+    @message = @room.messages.new(user: current_user)
   end
 
   def create
-    @message = current_user.messages.build(message_params)
-    @message.room_id = @room.id
+    @message = @room.messages.build(message_params)
+    @message.user = current_user
     if @message.save
-      @room.reactivate_participant if @room.unavailable_participant?
-      UserRoom.update_latest_read_message(@room,current_user)
       redirect_to user_room_path(current_user,@room), success: "Post message succeeded!"
     else
       @message_post = @message
-      @user = current_user
-      @messages = @room.messages
+      @messages = @room.messages.after_history_deletion(@room.datetime_last_history_deleted(current_user))
+                                .order(created_at: :desc)
       render template: 'rooms/show'
     end
   end
 
   def destroy
-    @message = current_user.messages.find_by(id: params[:id])
+    @message = @room.messages.find_by(id: params[:id], user: current_user)
     @message.destroy
     redirect_to request.referrer, success: "Message deleted successfully!"
+  end
+
+  def mark_read
+    @message = @room.messages.order(created_at: :desc).first
+    @message.mark_last_read_message(current_user)
+    render json: {status: "OK", code: 200}
   end
 
   private

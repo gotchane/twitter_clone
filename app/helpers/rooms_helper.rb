@@ -1,52 +1,14 @@
 module RoomsHelper
-  def room_participants(user, i)
-    i == 0 ? user.name : "/ " + user.name
+  def room_participants(users)
+    users.map(&:name).join(" / ")
   end
 
-  def read_user_count(users, room, message)
-    if message.user == current_user then
-      unless users.count == 1 && users.first == current_user then
-        read_count = 0
-        users.each do |user|
-          latest_read_message_id = user.user_rooms
-                                       .find_by(room: room)
-                                       .latest_read_message_id
-          if user != current_user && !latest_read_message_id.nil? then
-            if message.id <= latest_read_message_id then
-              read_count += 1
-            end
-          end
-        end
-        if read_count == 0 then
-          "Unread"
-        else
-          "Read:#{read_count}"
-        end
-     end
-    end
+  def message_read_count(message)
+    read_count = message.read_count(current_user)
+    read_count == 0 ? "Unread" : "Read:#{read_count}"
   end
 
   def read_state(room)
-    latest_read_message_id = current_user.user_rooms
-                                         .find_by(room: room)
-                                         .latest_read_message_id
-    room_latest_message_id = room.messages.order(id: "DESC")
-                                          .first.id unless room.messages.count == 0
-    if room.messages.count != 0 && !latest_read_message_id.nil? && !room_latest_message_id.nil? then
-      "--unread" if room_latest_message_id > latest_read_message_id
-    end
-  end
-
-  def last_read_msg_id(room)
-    msg_id = room.user_rooms.find_by(user: current_user).latest_read_message_id
-    if msg_id == 0 && room.messages.count != 0 then
-      room.messages.order(id: "ASC").first.id
-    else
-      msg_id
-    end
-  end
-
-  def mark_read_url(room)
-    "/users/#{current_user.id}/rooms/#{room.id}/mark_read"
+    "--unread" if room.has_unread_message?(current_user)
   end
 end

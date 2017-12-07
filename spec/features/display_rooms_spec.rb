@@ -1,20 +1,16 @@
 require 'rails_helper'
 
 RSpec.feature 'Display rooms', type: :feature do
+  given!(:bob) { create(:user, name: "Bob") }
+  given!(:alice) { create(:user, name: "Alice") }
+  given!(:carol) { create(:user, name: "Carol") }
+  given!(:room) { create(:room, create_user: bob, users:[bob,alice]) }
   context "as logged in user" do
-    scenario "display rooms list" do
-      bob = create(:user, name: "Bob")
-      alice = create(:user, name: "Alice")
-      carol = create(:user, name: "Carol")
-      bob.rooms << create_list(:room, 2, create_user_id: bob.id)
-      first_room_alice = create(:user_room, user: alice, room: bob.rooms.first)
-      msg_bob_first_room = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
-      msg_alice_first_room = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
-      second_room_alice = create(:user_room, user: alice, room: bob.rooms.second)
-      second_room_carol = create(:user_room, user: carol, room: bob.rooms.second)
-      msg_bob_second_room = create(:message, room: bob.rooms.second, user: bob, body:"2nd_bob")
-      msg_alice_second_room = create(:message, room: bob.rooms.second, user: alice, body:"2nd_alice")
-      msg_carol_second_room = create(:message, room: bob.rooms.second, user: carol, body:"2nd_carol")
+    scenario "display only rooms where current user participates" do
+      room_without_me = create(:room, create_user: alice, users:[alice,carol])
+      msg_bob = create(:message, room: bob.rooms.first, user: bob, body:"1st_bob")
+      msg_alice = create(:message, room: bob.rooms.first, user: alice, body:"1st_alice")
+      msg_carol_without_me = create(:message, room: carol.rooms.first, user: carol, body:"1st_carol")
       login_as(bob)
       visit root_path
       click_link "Message"
@@ -23,11 +19,52 @@ RSpec.feature 'Display rooms', type: :feature do
       expect(page).to have_css(".rooms__item__avater")
       expect(page).to have_selector ".rooms__item__box__user", text: "Bob / Alice"
       expect(page).to have_selector ".rooms__item__box__msg", text: "1st_alice"
-      expect(page).to have_selector ".rooms__item__box__user", text: "Bob / Alice / Carol"
-      expect(page).to have_selector ".rooms__item__box__msg", text: "2nd_carol"
+      expect(page).not_to have_selector ".rooms__item__box__user", text: "Alice / Carol"
+      expect(page).not_to have_selector ".rooms__item__box__msg", text: "1st_carol"
+    end
+    scenario "change backgroud color of room with unread messages" do
+      login_as(alice)
+      click_link "Message"
+      click_link "Bob / Alice"
+      fill_in "message[body]", with: '1st_alice'
+      click_button "Post"
+      click_link "Log out"
+      login_as(bob)
+      click_link "Message"
+      expect(page).to have_selector ".rooms__item__box__user", text: "Bob / Alice"
+      expect(page).to have_selector ".rooms__item__box__msg", text: "1st_alice"
+      expect(page).to have_css(".rooms__item--unread")
+    end
+    scenario "do not change backgroud color of room with no unread messages", js: true do
+      login_as(bob)
+      click_link "Message"
+      click_link "Bob / Alice"
+      fill_in 'message[body]', with: 'new bob message.'
+      click_button "Post"
+      click_link "Message"
+      expect(page).not_to have_css(".rooms__item--unread")
+    end
+    scenario "redisplay the room deleted after other user post a message", js: true do
+      login_as(bob)
+      click_link "Message"
+      click_link "Bob / Alice"
+      page.accept_confirm 'Are you sure?' do
+        click_link "Delete messages history"
+      end
+      click_link "Log out"
+      login_as(alice)
+      click_link "Message"
+      click_link "Bob / Alice"
+      fill_in "message[body]", with: 'new alice message.'
+      click_button "Post"
+      click_link "Log out"
+      login_as(bob)
+      click_link "Message"
+      expect(page).to have_selector ".rooms__item__box__user", text: "Bob / Alice"
+      expect(page).to have_selector ".rooms__item__box__msg", text: "new alice message."
+      expect(page).to have_css(".rooms__item--unread")
     end
   end
-
   context "as not logged in user" do
     scenario "redirect to login page" do
       user = create(:user)
